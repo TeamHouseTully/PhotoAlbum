@@ -11,14 +11,26 @@ img {
 .smallImage {
     min-width: 100%;
     cursor: pointer;
+    box-shadow: 2px -2px 4px black;
 }
 
 body {
-    background: yellow;
+    background: url("../design/BackGround.jpg") fixed;
+}
+
+header {
+    width: 100%;
+    background: #eeeeee;
+    height: 100px;
 }
 
 header > .wrapper {
-    background: red;
+    height: 100px;
+    text-align: center;
+}
+
+.logo {
+    cursor: pointer;
 }
 
 main > .wrapper {
@@ -26,23 +38,29 @@ main > .wrapper {
 }
 
 .imagesHolder {
-    border-left: 4px solid green;
+    border-left: 4px solid #eeeeee;
     margin-top: 4px;
     margin-bottom: -4px;
 }
 
 .smallImageContainer {
     width: 25%;
-    border-top: 4px solid green;
-    border-right: 4px solid green;
+    border-top: 4px solid #eeeeee;
+    border-right: 4px solid #eeeeee;
     display: inline-block;
     box-sizing: border-box;
     margin-top: -5px;
 }
 
-footer > .wrapper {
-    background: red;
+footer {
+    width: 100%;
+    background: #eeeeee;
+    height: 100px;
 }
+
+/*footer > .wrapper {
+    background: red;
+}*/
 
 .wrapper {
     width: 100%;

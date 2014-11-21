@@ -138,7 +138,13 @@ var Event = (function () {
         }
 
         DisableScrollingPage.prototype.bodyOverflowHidden = function () {
+            // Computer
             $("body").css("overflow", "hidden");
+
+            // SmartPhone
+            $(document).on('touchstart', function(e) {
+                e.preventDefault();
+            });
         }
 
         DisableScrollingPage.prototype.disableScrolling = function () {
