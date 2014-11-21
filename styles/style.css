@@ -9,10 +9,10 @@ img {
 }
 
 .smallImage {
-    min-width: 100%;
-    cursor: pointer;
-    box-shadow: 2px -2px 4px black;
-}
+     min-width: 100%;
+     cursor: pointer;
+     box-shadow: 2px -2px 4px black;
+ }
 
 body {
     background: url("../design/BackGround.jpg") fixed;
@@ -33,9 +33,9 @@ header > .wrapper {
     cursor: pointer;
 }
 
-main > .wrapper {
+/*main > .wrapper {
     background: yellow;
-}
+}*/
 
 .imagesHolder {
     border-left: 4px solid #eeeeee;
@@ -155,19 +155,75 @@ footer {
 }
 
 @media only screen and (min-width : 768px) and (max-width : 1024px) {
+    header {
+        height: 150px;
+    }
+
+    header > .wrapper {
+        height: 150px;
+    }
+
     .wrapper {
         width: 100%;
     }
+
     .smallImageContainer {
         width: 50%;
+        border-top: 15px solid #eeeeee;
+        border-right: 15px solid #eeeeee;
+        display: inline-block;
+        box-sizing: border-box;
+        margin-top: -17px;
+    }
+
+    .imagesHolder {
+        border-left: 15px solid #eeeeee;
+        margin-top: 15px;
+        margin-bottom: -15px;
+    }
+
+    .smallImage {
+         box-shadow: 7px -7px 12px black;
+    }
+
+    .closeVirtualImage {
+          width: 30px;
     }
 }
 
 @media only screen and (max-width: 767px), only screen and (max-device-width: 767px) {
+    header {
+        height: 150px;
+    }
+
+    header > .wrapper {
+        height: 150px;
+    }
+
     .wrapper {
         width: 100%;
     }
+
     .smallImageContainer {
         width: 100%;
+        border-top: 15px solid #eeeeee;
+        border-right: 15px solid #eeeeee;
+        display: inline-block;
+        box-sizing: border-box;
+        margin-top: -17px;
+    }
+
+    .imagesHolder {
+        border-left: 15px solid #eeeeee;
+        margin-top: 15px;
+        margin-bottom: -15px;
+    }
+
+    .smallImage {
+        box-shadow: 7px -7px 12px black;
+    }
+
+    .closeVirtualImage {
+        width: 30px;
     }
 }

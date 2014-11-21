@@ -9,6 +9,9 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.showVirtualBackground = function () {
             $('.smallImage').on('click', function () {
                 $('.virtualBackground').show();
+
+                new Event.SlideImage();
+
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
 
                 Constants.currentImage = parseInt($(this).attr('class').split(' ')[1]);
@@ -80,31 +83,53 @@ var Event = (function () {
         SlideImage.prototype.prevImage = function () {
             $(".leftArrow, .bigImageLeftArrowHolder")
                 .on('click', function () {
-                Constants.currentImage = isNaN(Constants.currentImage) ? '' :
-                    Constants.currentImage ? --Constants.currentImage :
-                        Constants.JSONImageData.length - 1;
-
-                new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
-
-                $(this)
-                    .data('prevImage', Constants.currentImage - 1 < 0 ?
-                    Constants.JSONImageData.length - 1 : Constants.currentImage - 1);
+                    prevImageLogic();
             });
+
+            $(document).on('keypress', function (event) {
+                if (event.keyCode == 37) {
+                    prevImageLogic();
+                }
+                console.log(event.keyCode);
+            });
+        }
+
+        var prevImageLogic = function () {
+            Constants.currentImage = isNaN(Constants.currentImage) ? '' :
+                Constants.currentImage ? --Constants.currentImage :
+                Constants.JSONImageData.length - 1;
+
+            new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
+
+            $(this)
+                .data('prevImage', Constants.currentImage - 1 < 0 ?
+                Constants.JSONImageData.length - 1 : Constants.currentImage - 1);
         }
 
         SlideImage.prototype.nextImage = function () {
             $(".rightArrow, .bigImageRightArrowHolder, .bigImageCenter")
                 .on('click', function () {
-                Constants.currentImage = isNaN(Constants.currentImage) ? '' :
-                    Constants.currentImage >= Constants.JSONImageData.length - 1 ?
-                        0 : ++Constants.currentImage;
-
-                new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
-
-                $(this)
-                    .data('nextImage', Constants.currentImage + 1 <=
-                    Constants.JSONImageData.length - 1 ? Constants.currentImage + 1 : 0);
+                nextImageLogic();
             });
+
+            $(document).on('keypress', function (event) {
+                if (event.keyCode == 39) {
+                    nextImageLogic();
+                }
+                console.log(event.keyCode);
+            });
+        }
+
+        var nextImageLogic = function () {
+            Constants.currentImage = isNaN(Constants.currentImage) ? '' :
+                Constants.currentImage >= Constants.JSONImageData.length - 1 ?
+                    0 : ++Constants.currentImage;
+
+            new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
+
+            $(this)
+                .data('nextImage', Constants.currentImage + 1 <=
+                Constants.JSONImageData.length - 1 ? Constants.currentImage + 1 : 0);
         }
 
         SlideImage.prototype.rightArrowOpacity = function () {
@@ -142,8 +167,8 @@ var Event = (function () {
             $("body").css("overflow", "hidden");
 
             // SmartPhone
-            $(document).on('touchstart', function(e) {
-                e.preventDefault();
+            $(document).on('touchmove', function(event) {
+                event.preventDefault();
             });
         }
 
@@ -173,7 +198,11 @@ var Event = (function () {
         }
 
         EnableScrollingPage.prototype.bodyOverflowAuto = function () {
+            // Computer
             $("body").css("overflow", "auto");
+
+            // SmartPhone
+            $(document).unbind('touchmove');
         }
 
         EnableScrollingPage.prototype.enableScrolling = function () {
@@ -181,6 +210,7 @@ var Event = (function () {
         }
 
         return EnableScrollingPage;
+
     })();
 
     return {
