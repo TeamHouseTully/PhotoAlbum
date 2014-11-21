@@ -90,7 +90,6 @@ var Event = (function () {
                 if (event.keyCode == 37) {
                     prevImageLogic();
                 }
-                console.log(event.keyCode);
             });
         }
 
@@ -116,7 +115,6 @@ var Event = (function () {
                 if (event.keyCode == 39) {
                     nextImageLogic();
                 }
-                console.log(event.keyCode);
             });
         }
 
