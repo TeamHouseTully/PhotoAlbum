@@ -70,7 +70,12 @@ var Container = (function () {
             $('.aboveTheBigImage')
                 .append('<div class="bigImageLeftArrowHolder"></div>')
                 .append('<div class="bigImageCenter"></div>')
-                .append('<div class="bigImageRightArrowHolder"></div>');
+                .append(
+                    $('<div class="bigImageRightArrowHolder"></div>')
+                        .append($('<div class="closeVirtualImage"></div>')
+                            .append($('<img src="' + Constants.designDirectory + 'Cross.png" title="Close" />')
+                        )
+                    ));
         }
 
         return BigImageContainer;

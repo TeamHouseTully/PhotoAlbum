@@ -95,6 +95,19 @@ footer > .wrapper {
     opacity: 0.4;
 }
 
+.closeVirtualImage {
+    position: relative;
+    margin: 15px;
+    float: right;
+    opacity: 0.4;
+    cursor: pointer;
+    width: 15px;
+}
+
+.closeVirtualImage:hover {
+    opacity: 0.9;
+}
+
 .bigImageCenter {
     display: inline-block;
     width: 60%;

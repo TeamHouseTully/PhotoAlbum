@@ -12,6 +12,8 @@ var Event = (function () {
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
 
                 Constants.currentImage = parseInt($(this).attr('class').split(' ')[1]);
+
+                new Event.DisableScrollingPage();
             });
         }
 
@@ -19,7 +21,15 @@ var Event = (function () {
             $(document).on('click', function (event) {
                 if (event.target.className.split(' ')[0] == 'virtualImageHolder') {
                     $('.virtualBackground').hide();
+
+                    new Event.EnableScrollingPage();
                 }
+            });
+
+            $('.closeVirtualImage').on('click', function () {
+                $('.virtualBackground').hide();
+
+                new Event.EnableScrollingPage();
             });
         }
 
@@ -121,10 +131,58 @@ var Event = (function () {
 
     })();
 
+    var DisableScrollingPage = (function () {
+        function DisableScrollingPage() {
+            this.bodyOverflowHidden();
+            this.disableScrolling();
+        }
+
+        DisableScrollingPage.prototype.bodyOverflowHidden = function () {
+            $("body").css("overflow", "hidden");
+        }
+
+        DisableScrollingPage.prototype.disableScrolling = function () {
+            var disabledKeyCodes = [33, 34, 38, 40, 35];
+            var disabledKeyWhich = [32];
+
+            $(document).on("keypress keyup keydown", function (event) {
+                if (disabledKeyWhich.indexOf(event.which) !== -1) {
+                    event.preventDefault();
+                }
+
+                if (disabledKeyCodes.indexOf(event.keyCode) !== -1) {
+                    event.preventDefault();
+                }
+            });
+        }
+
+        return DisableScrollingPage;
+
+    })();
+
+    var EnableScrollingPage = (function () {
+        function EnableScrollingPage() {
+            this.bodyOverflowAuto();
+            this.enableScrolling();
+        }
+
+        EnableScrollingPage.prototype.bodyOverflowAuto = function () {
+            $("body").css("overflow", "auto");
+        }
+
+        EnableScrollingPage.prototype.enableScrolling = function () {
+            $(document).unbind("keypress keyup keydown");
+        }
+
+        return EnableScrollingPage;
+    })();
+
     return {
         ShowHideVirtualBackground : ShowHideVirtualBackground,
         LoadVirtualImage: LoadVirtualImage,
-        SlideImage: SlideImage
+        SlideImage: SlideImage,
+        DisableScrollingPage: DisableScrollingPage,
+        EnableScrollingPage: EnableScrollingPage
     }
 
 })();
