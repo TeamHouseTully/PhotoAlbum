@@ -51,11 +51,10 @@ var Image = (function () {
         SmallImage.prototype.drawImage = function () {
             $(SMALL_IMAGE_CONTAINER_CLASS)
                 .filter("." + this.getImageId())
-                .html('<img class="' + SMALL_IMAGE_CLASS  + ' ' + this.getImageId() + '" />');
-
-            $('.' + SMALL_IMAGE_CLASS)
-                .filter('.' + this.getImageId())
-                .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName());
+                .html($('<img class="' + SMALL_IMAGE_CLASS  + ' ' + this.getImageId() + '" />')
+                        .filter('.' + this.getImageId())
+                        .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName())
+            );
         }
 
         return SmallImage;
@@ -63,10 +62,6 @@ var Image = (function () {
     })();
 
     var BigImage = (function () {
-
-        var bigImageWidth,
-            bigImageHeight;
-
         function BigImage(name, id) {
             Image.apply(this, [name, id]);
 
@@ -77,34 +72,13 @@ var Image = (function () {
 
         BigImage.prototype.imageType = 'big';
 
-        BigImage.prototype.drawArrowsContainer = function () {
-            $(".bigImage").on('load', function () {
-                bigImageWidth = $(this).css("width");
-                bigImageHeight = $(this).css("height");
-
-                $('.aboveTheBigImage')
-                    .css('width', bigImageWidth)
-                    .css('height', bigImageHeight);
-            });
-
-            $(window).on('resize', function () {
-                bigImageWidth = $(".bigImage").css("width");
-                bigImageHeight = $(".bigImage").css("height");
-
-                $('.aboveTheBigImage')
-                    .css('width', bigImageWidth)
-                    .css('height', bigImageHeight);
-            });
-        }
-
         BigImage.prototype.drawImage = function () {
             $(BIG_IMAGE_CONTAINER_CLASS)
-                .html('<span class="middleHelper"></span><img class="' + BIG_IMAGE_CLASS + ' ' + this.getImageId() + '" />');
+                .html($('<img class="' + BIG_IMAGE_CLASS + ' ' + this.getImageId() + '" />')
+                        .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName()))
+                .prepend('<span class="middleHelper"></span>');
 
-            $('.' + BIG_IMAGE_CLASS)
-                .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName());
-
-            this.drawArrowsContainer();
+            new Container.AboveTheBigImage();
         }
 
         return BigImage;

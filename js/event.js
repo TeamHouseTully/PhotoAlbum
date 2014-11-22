@@ -11,7 +11,6 @@ var Event = (function () {
                 $('.virtualBackground').show();
 
                 new Event.SlideImage();
-
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
 
                 GeneralVariables.currentImage = parseInt($(this).attr('class').split(' ')[1]);

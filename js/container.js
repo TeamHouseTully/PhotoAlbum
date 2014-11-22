@@ -35,8 +35,7 @@ var Container = (function () {
 
         SmallImageContainer.prototype.appendContainer = function () {
             $("." + APPEND_TO_CLASS_NAME)
-                .append('<span class="' + SMALL_IMAGES_CONTAINER_CLASS_NAME + ' ' + this.getContainerId() +
-                '"></span>');
+                .append('<span class="' + SMALL_IMAGES_CONTAINER_CLASS_NAME + ' ' + this.getContainerId() + '"></span>');
         }
 
         return SmallImageContainer;
@@ -64,28 +63,49 @@ var Container = (function () {
         BigImageContainer.prototype.createVirtualImageHolder = function () {
             $(".virtualBackground")
                 .append('<div class="virtualImageHolder ' + this.getContainerId() + '"></div>')
-                .prepend('<div class="aboveTheBigImage"></div>')
-                .hide();
-
-            $('.aboveTheBigImage')
-                .append('<div class="bigImageLeftArrowHolder"></div>')
-                .append('<div class="bigImageCenter"></div>')
-                .append(
-                    $('<div class="bigImageRightArrowHolder"></div>')
+                .prepend($('<div class="aboveTheBigImage"></div>')
+                    .append('<div class="bigImageLeftArrowHolder"></div>')
+                    .append('<div class="bigImageCenter"></div>')
+                    .append($('<div class="bigImageRightArrowHolder"></div>')
                         .append($('<div class="closeVirtualImage"></div>')
                             .append($('<img src="' + GeneralVariables.DESIGN_DIRECTORY + 'Cross.png" title="Close" />')
                         )
-                    ));
+                    )))
+                .hide();
         }
 
         return BigImageContainer;
 
     })();
 
+    var AboveTheBigImage = (function () {
+        function AboveTheBigImage() {
+            this.drawArrowsContainer();
+        }
+
+        AboveTheBigImage.prototype.drawArrowsContainer = function () {
+            $(".bigImage").on('load', function () {
+                $('.aboveTheBigImage')
+                    .css('width', $(this).css("width"))
+                    .css('height', $(this).css("height"));
+            });
+
+            $(window).on('resize', function () {
+                $('.aboveTheBigImage')
+                    .css('width', $(".bigImage").css("width"))
+                    .css('height', $(".bigImage").css("height"));
+            });
+        }
+
+        return AboveTheBigImage;
+
+    })();
+
     return {
         Container: Container,
         SmallImageContainer: SmallImageContainer,
-        BigImageContainer: BigImageContainer
+        BigImageContainer: BigImageContainer,
+        AboveTheBigImage: AboveTheBigImage
     }
 
 })();
