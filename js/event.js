@@ -14,7 +14,7 @@ var Event = (function () {
 
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
 
-                Constants.currentImage = parseInt($(this).attr('class').split(' ')[1]);
+                GeneralVariables.currentImage = parseInt($(this).attr('class').split(' ')[1]);
 
                 new Event.DisableScrollingPage();
             });
@@ -49,7 +49,7 @@ var Event = (function () {
         }
 
         LoadVirtualImage.prototype.setImageName = function () {
-            this._imageName = Constants.JSONImageData[this.getImageId()].imagename;
+            this._imageName = GeneralVariables.JSONImageData[this.getImageId()].imagename;
         }
 
         LoadVirtualImage.prototype.getImageName = function () {
@@ -94,15 +94,15 @@ var Event = (function () {
         }
 
         var prevImageLogic = function () {
-            Constants.currentImage = isNaN(Constants.currentImage) ? '' :
-                Constants.currentImage ? --Constants.currentImage :
-                Constants.JSONImageData.length - 1;
+            GeneralVariables.currentImage = isNaN(GeneralVariables.currentImage) ? '' :
+                GeneralVariables.currentImage ? --GeneralVariables.currentImage :
+                GeneralVariables.JSONImageData.length - 1;
 
-            new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
 
             $(this)
-                .data('prevImage', Constants.currentImage - 1 < 0 ?
-                Constants.JSONImageData.length - 1 : Constants.currentImage - 1);
+                .data('prevImage', GeneralVariables.currentImage - 1 < 0 ?
+                GeneralVariables.JSONImageData.length - 1 : GeneralVariables.currentImage - 1);
         }
 
         SlideImage.prototype.nextImage = function () {
@@ -119,15 +119,15 @@ var Event = (function () {
         }
 
         var nextImageLogic = function () {
-            Constants.currentImage = isNaN(Constants.currentImage) ? '' :
-                Constants.currentImage >= Constants.JSONImageData.length - 1 ?
-                    0 : ++Constants.currentImage;
+            GeneralVariables.currentImage = isNaN(GeneralVariables.currentImage) ? '' :
+                GeneralVariables.currentImage >= GeneralVariables.JSONImageData.length - 1 ?
+                    0 : ++GeneralVariables.currentImage;
 
-            new Image.BigImage(Constants.JSONImageData[Constants.currentImage].imagename, Constants.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
 
             $(this)
-                .data('nextImage', Constants.currentImage + 1 <=
-                Constants.JSONImageData.length - 1 ? Constants.currentImage + 1 : 0);
+                .data('nextImage', GeneralVariables.currentImage + 1 <=
+                GeneralVariables.JSONImageData.length - 1 ? GeneralVariables.currentImage + 1 : 0);
         }
 
         SlideImage.prototype.rightArrowOpacity = function () {

@@ -73,7 +73,7 @@ var Container = (function () {
                 .append(
                     $('<div class="bigImageRightArrowHolder"></div>')
                         .append($('<div class="closeVirtualImage"></div>')
-                            .append($('<img src="' + Constants.designDirectory + 'Cross.png" title="Close" />')
+                            .append($('<img src="' + GeneralVariables.DESIGN_DIRECTORY + 'Cross.png" title="Close" />')
                         )
                     ));
         }

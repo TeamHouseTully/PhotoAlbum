@@ -7,7 +7,7 @@ var ImageLoader = (function () {
             this.getImagesFromDataBase();
 
             $(document).ajaxComplete(function () {
-                Constants.JSONImageData = JSON.parse(stringImageData);
+                GeneralVariables.JSONImageData = JSON.parse(stringImageData);
 
                 new ImageLoader.ImageMounter();
                 new Container.BigImageContainer(0);
@@ -35,10 +35,10 @@ var ImageLoader = (function () {
         }
 
         ImageMounter.prototype.mountImage = function () {
-            for (var i = 0; i < Constants.JSONImageData.length; i++) {
+            for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
                 new Container.SmallImageContainer(i);
 
-                new Image.SmallImage(Constants.JSONImageData[i].imagename, i);
+                new Image.SmallImage(GeneralVariables.JSONImageData[i].imagename, i);
             }
         }
 

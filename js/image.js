@@ -1,9 +1,10 @@
 var Image = (function () {
 
-    var smallImageContainerClass = '.smallImageContainer',
-        bigImageContainerClass = '.virtualImageHolder',
-        smallImageClass = 'smallImage',
-        bigImageClass = 'bigImage';
+    var SMALL_IMAGE_CONTAINER_CLASS = '.smallImageContainer',
+        BIG_IMAGE_CONTAINER_CLASS = '.virtualImageHolder',
+        SMALL_IMAGE_CLASS = 'smallImage',
+        IMAGE_DIRECTORY = 'uploads/',
+        BIG_IMAGE_CLASS = 'bigImage';
 
     var Image = (function () {
 
@@ -48,13 +49,13 @@ var Image = (function () {
         SmallImage.prototype.imageType = 'small';
 
         SmallImage.prototype.drawImage = function () {
-            $(smallImageContainerClass)
+            $(SMALL_IMAGE_CONTAINER_CLASS)
                 .filter("." + this.getImageId())
-                .html('<img class="' + smallImageClass  + ' ' + this.getImageId() + '" />');
+                .html('<img class="' + SMALL_IMAGE_CLASS  + ' ' + this.getImageId() + '" />');
 
-            $('.' + smallImageClass)
+            $('.' + SMALL_IMAGE_CLASS)
                 .filter('.' + this.getImageId())
-                .attr('src', Constants.imagesDirectory + this.imageType + '/' + this.getImageName());
+                .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName());
         }
 
         return SmallImage;
@@ -97,11 +98,11 @@ var Image = (function () {
         }
 
         BigImage.prototype.drawImage = function () {
-            $(bigImageContainerClass)
-                .html('<span class="middleHelper"></span><img class="' + bigImageClass + ' ' + this.getImageId() + '" />');
+            $(BIG_IMAGE_CONTAINER_CLASS)
+                .html('<span class="middleHelper"></span><img class="' + BIG_IMAGE_CLASS + ' ' + this.getImageId() + '" />');
 
-            $('.' + bigImageClass)
-                .attr('src', Constants.imagesDirectory + this.imageType + '/' + this.getImageName());
+            $('.' + BIG_IMAGE_CLASS)
+                .attr('src', IMAGE_DIRECTORY + this.imageType + '/' + this.getImageName());
 
             this.drawArrowsContainer();
         }

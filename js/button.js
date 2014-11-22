@@ -24,14 +24,6 @@ var Button = (function () {
 
         Arrow.prototype = new Button();
 
-        Arrow.prototype.createArrow = function () {
-            var image = $('<img src="' +
-            Constants.designDirectory + this._icon + ' title="' + this._type + '"" class="' + this._type +
-            ' ' + this.getButtonId() + '" />');
-
-            return image;
-        }
-
         return Arrow;
 
     })();
@@ -52,7 +44,7 @@ var Button = (function () {
         LeftArrow.prototype.drawArrow = function () {
             $('.bigImageLeftArrowHolder')
                 .append('<span class="middleHelper"></span>' + '<img src="' +
-                Constants.designDirectory + this._icon + '" title="' + this._type + '" class="' + this._type +
+                GeneralVariables.DESIGN_DIRECTORY + this._icon + '" title="' + this._type + '" class="' + this._type +
                 ' ' + this.getButtonId() + '" />');
         }
 
@@ -76,7 +68,7 @@ var Button = (function () {
         RightArrow.prototype.drawArrow = function () {
             $('.bigImageRightArrowHolder')
                 .append('<span class="middleHelper"></span>' + '<img src="' +
-                Constants.designDirectory + this._icon + '" title="' + this._type + '" class="' + this._type +
+                GeneralVariables.DESIGN_DIRECTORY + this._icon + '" title="' + this._type + '" class="' + this._type +
                 ' ' + this.getButtonId() + '" />');
         }
 
