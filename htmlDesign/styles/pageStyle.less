@@ -1,0 +1,142 @@
+html, body, header, h1, span, p, nav, ul, li, hr, section, div, footer, form, input, label, button {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: 'Tahoma', Calibri, Arial, sans-serif;
+    font-size: 62.5%;
+    width: 100%;
+
+    header {
+
+    	h1 {
+    		font-size: 5em;
+    		padding: 2% 0 2% 2%;
+
+    		span {
+    			display: block;
+    			padding-left: 10%;
+    		}
+    	}
+
+    	p {
+    		display: inline-block;
+    		font-size: 1.7em;
+    		position: absolute;
+    		top: 10%;
+    		right: 10%;
+
+    		a {
+    			color: #000;
+    			text-decoration: none;
+
+    			&:hover {
+    				border-radius: 10px;
+    				background-color: #4CB849;
+    				padding: 10px;
+    			}
+    		}
+    	}
+
+    	nav {
+    		font-size: 2em;
+    		margin-bottom: 1%;
+
+    		ul {
+    			list-style: none;
+    			margin-left: 10%;
+
+    			li {
+					display: inline-block;
+					border: 1px solid #000;
+					border-radius: 20px;
+
+					a {
+						color: #000;
+						text-decoration: none;
+						padding: 10px 20px;
+					}
+    			}
+
+    			.loggedUser {
+    				display: inline-block;
+					border: 1px solid #CCC;
+					border-radius: 20px;
+					color: #CCC;
+
+					a {
+						color: #888;
+						text-decoration: none;
+						padding: 10px 20px;
+					}
+    			}
+    		}
+    	}
+    }
+
+    section {
+
+    	h2 {
+    		font-size: 3em;
+    		text-align: center;
+    	}
+
+    	p {
+    		font-size: 1.8em;
+    		padding: 2%;
+    	}
+
+		form {
+			border: 1px solid #000;
+			border-radius: 5px;
+			font-size: 2em;
+			width: 250px;
+			padding: 10px;
+			margin: 20px auto;
+
+			input {
+				display: block;
+				border: 1px solid #000;
+				border-radius: 5px;
+				font-size: 1em;
+				padding: 5px 10px;
+			}
+
+			button {
+				font-size: 1em;
+				padding: 5px;
+				margin-top: 20px;
+			}
+		}
+
+		.photoAlbum {
+			display: inline-block;
+			border: 1px solid #000;
+			border-radius: 10px;
+			width: 200px;
+			height: 200px;
+			padding: 10px;
+			margin: 30px;
+		}
+
+		.team {
+			display: inline-block;
+			border: 1px solid #000;
+			border-radius: 10px;
+			width: 200px;
+			height: 200px;
+			margin-left: 20px;
+			margin-bottom: 20px;
+		}
+    }
+
+    footer {
+    	font-size: 1.2em;
+
+    	p {
+    		text-align: center;
+    		padding: 1%;
+    	}
+    }
+}
