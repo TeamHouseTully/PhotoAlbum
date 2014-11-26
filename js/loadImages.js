@@ -1,40 +1,32 @@
 var ImageLoader = (function () {
-
-    var stringImageData;
-
     var ImageSelector = (function () {
-        function ImageSelector() {
-            this.getImagesFromDataBase();
+        function ImageSelector () {
+            this.selectImages();
 
             $(document).ajaxComplete(function () {
-                GeneralVariables.JSONImageData = JSON.parse(stringImageData);
-
-                new ImageLoader.ImageMounter();
-                new Container.BigImageContainer(0);
-                new Event.ShowHideVirtualBackground();
-                new Event.SlideImage();
+                new ImageLoader.LoadImages();
             });
         }
 
-        ImageSelector.prototype.getImagesFromDataBase = function () {
+        ImageSelector.prototype.selectImages = function () {
             $.ajax({
-                url: 'selectAllImages.php',
+                url: "selectAllImages.php",
                 success: function (result) {
-                    stringImageData = result;
+                    GeneralVariables.JSONImageData = JSON.parse(result);
                 }
             });
         }
 
         return ImageSelector;
-
     })();
 
-    var ImageMounter = (function () {
-        function ImageMounter() {
+
+    var LoadImages = (function () {
+        function LoadImages() {
             this.mountImage();
         }
 
-        ImageMounter.prototype.mountImage = function () {
+        LoadImages.prototype.mountImage = function () {
             for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
                 new Container.SmallImageContainer(i);
 
@@ -42,13 +34,12 @@ var ImageLoader = (function () {
             }
         }
 
-        return ImageMounter;
-
+        return LoadImages;
     })();
+
 
     return {
         ImageSelector: ImageSelector,
-        ImageMounter: ImageMounter
+        LoadImages: LoadImages
     }
-
 })();
