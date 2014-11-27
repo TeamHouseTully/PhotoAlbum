@@ -22,17 +22,25 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.hideVirtualBackground = function () {
             $(document).on('click', function (event) {
                 if (event.target.className.split(' ')[0] == 'virtualImageHolder') {
-                    $('.virtualBackground').hide();
+                    hideImage();
+                }
+            });
 
-                    new Event.EnableScrollingPage();
+            $(document).on('keydown', function (event) {
+                if (event.which == 27) {
+                    hideImage();
                 }
             });
 
             $('.closeVirtualImage').on('click', function () {
+                hideImage();
+            });
+
+            var hideImage = function () {
                 $('.virtualBackground').hide();
 
                 new Event.EnableScrollingPage();
-            });
+            };
         }
 
         return ShowHideVirtualBackground ;
@@ -170,15 +178,10 @@ var Event = (function () {
         }
 
         DisableScrollingPage.prototype.disableScrolling = function () {
-            var disabledKeyCodes = [33, 34, 38, 40, 35];
-            var disabledKeyWhich = [32];
+            var disabledKeyWhich = [32, 33, 34, 38, 40, 35];
 
-            $(document).on("keypress keyup keydown", function (event) {
+            $(document).on("keydown", function (event) {
                 if (disabledKeyWhich.indexOf(event.which) !== -1) {
-                    event.preventDefault();
-                }
-
-                if (disabledKeyCodes.indexOf(event.keyCode) !== -1) {
                     event.preventDefault();
                 }
             });
@@ -203,7 +206,7 @@ var Event = (function () {
         }
 
         EnableScrollingPage.prototype.enableScrolling = function () {
-            $(document).unbind("keypress keyup keydown");
+            $(document).unbind("keydown");
         }
 
         return EnableScrollingPage;
