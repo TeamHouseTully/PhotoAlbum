@@ -17,6 +17,28 @@ var Button = (function () {
 
     })();
 
+    var Cross = (function () {
+        function Cross (buttonId) {
+            Button.call(this, buttonId);
+
+            this.drawCross();
+        }
+
+        Cross.prototype = new Button();
+
+        Cross.prototype._type = 'Cross';
+
+        Cross.prototype._icon = 'Cross.png';
+
+        Cross.prototype.drawCross = function () {
+            $('.closeVirtualImage')
+                .append($('<img src="' + GeneralVariables.DESIGN_DIRECTORY + 'Cross.png" class="' + this._type + ' ' +
+                this.getButtonId() + '" title="Close" />'));
+        }
+
+        return Cross;
+    })();
+
     var Arrow = (function () {
         function Arrow(buttonId) {
             Button.call(this, buttonId);
@@ -80,6 +102,7 @@ var Button = (function () {
         Button: Button,
         Arrow: Arrow,
         LeftArrow: LeftArrow,
+        Cross: Cross,
         RightArrow: RightArrow
     }
 
