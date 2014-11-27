@@ -1,16 +1,20 @@
 var ImageLoader = (function () {
+
     var ImageSelector = (function () {
-        function ImageSelector () {
-            this.selectImages();
+        function ImageSelector() {
+            this.getImagesFromDataBase();
 
             $(document).ajaxComplete(function () {
-                new ImageLoader.LoadImages();
+                new ImageLoader.ImageMounter();
+                new Container.BigImageContainer(0);
+                new Event.ShowHideVirtualBackground();
+                new Event.SlideImage();
             });
         }
 
-        ImageSelector.prototype.selectImages = function () {
+        ImageSelector.prototype.getImagesFromDataBase = function () {
             $.ajax({
-                url: "selectAllImages.php",
+                url: 'selectAllImages.php',
                 success: function (result) {
                     GeneralVariables.JSONImageData = JSON.parse(result);
                 }
@@ -18,28 +22,29 @@ var ImageLoader = (function () {
         }
 
         return ImageSelector;
+
     })();
 
-
-    var LoadImages = (function () {
-        function LoadImages() {
+    var ImageMounter = (function () {
+        function ImageMounter() {
             this.mountImage();
         }
 
-        LoadImages.prototype.mountImage = function () {
-            for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
+        ImageMounter.prototype.mountImage = function () {
+            for (var i = 0; i <  GeneralVariables.JSONImageData.length; i++) {
                 new Container.SmallImageContainer(i);
 
                 new Image.SmallImage(GeneralVariables.JSONImageData[i].imagename, i);
             }
         }
 
-        return LoadImages;
-    })();
+        return ImageMounter;
 
+    })();
 
     return {
         ImageSelector: ImageSelector,
-        LoadImages: LoadImages
+        ImageMounter: ImageMounter
     }
+
 })();
