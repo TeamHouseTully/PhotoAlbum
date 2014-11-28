@@ -6,8 +6,8 @@ var Container = (function () {
     var Container = (function () {
         function Container (containerId) {
             /*if (this.constructor === Image) {
-                throw new Error('Cannot instantiate abstract class Image.');
-            }*/
+             throw new Error('Cannot instantiate abstract class Image.');
+             }*/
 
             this.setContainerId(containerId);
         }

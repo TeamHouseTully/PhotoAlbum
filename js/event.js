@@ -56,7 +56,7 @@ var Event = (function () {
         }
 
         LoadVirtualImage.prototype.setImageName = function () {
-            this._imageName = GeneralVariables.JSONImageData[this.getImageId()].imagename;
+            this._imageName = GeneralVariables.JSONImageData[this.getImageId()].Image.url;
         }
 
         LoadVirtualImage.prototype.getImageName = function () {
@@ -91,7 +91,7 @@ var Event = (function () {
             $(".leftArrow, .bigImageLeftArrowHolder")
                 .on('click', function () {
                     prevImageLogic();
-            });
+                });
 
             $(document).on('keypress', function (event) {
                 if (event.keyCode == 37) {
@@ -105,7 +105,7 @@ var Event = (function () {
                 GeneralVariables.currentImage ? --GeneralVariables.currentImage :
                 GeneralVariables.JSONImageData.length - 1;
 
-            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].Image.url, GeneralVariables.currentImage);
 
             $(this)
                 .data('prevImage', GeneralVariables.currentImage - 1 < 0 ?
@@ -115,8 +115,8 @@ var Event = (function () {
         SlideImage.prototype.nextImage = function () {
             $(".rightArrow, .bigImageRightArrowHolder, .bigImageCenter")
                 .on('click', function () {
-                nextImageLogic();
-            });
+                    nextImageLogic();
+                });
 
             $(document).on('keypress', function (event) {
                 if (event.keyCode == 39) {
@@ -130,7 +130,7 @@ var Event = (function () {
                 GeneralVariables.currentImage >= GeneralVariables.JSONImageData.length - 1 ?
                     0 : ++GeneralVariables.currentImage;
 
-            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].Image.url, GeneralVariables.currentImage);
 
             $(this)
                 .data('nextImage', GeneralVariables.currentImage + 1 <=

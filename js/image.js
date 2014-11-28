@@ -9,8 +9,8 @@ var Image = (function () {
 
         function Image (name, id) {
             /*if (this.constructor === Image) {
-                throw new Error('Cannot instantiate abstract class Image.');
-            }*/
+             throw new Error('Cannot instantiate abstract class Image.');
+             }*/
 
             this.setImageName(name);
             this.setImageId(id);
@@ -54,7 +54,7 @@ var Image = (function () {
 
             $('.' + smallImageClass)
                 .filter('.' + this.getImageId())
-                .attr('src', GeneralVariables.IMAGES_DIRECTORY + this.imageType + '/' + this.getImageName());
+                .attr('src',this.getImageName());
         }
 
         return SmallImage;
@@ -101,7 +101,7 @@ var Image = (function () {
                 .html('<span class="middleHelper"></span><img class="' + bigImageClass + ' ' + this.getImageId() + '" />');
 
             $('.' + bigImageClass)
-                .attr('src', GeneralVariables.IMAGES_DIRECTORY + this.imageType + '/' + this.getImageName());
+                .attr('src',this.getImageName());
 
             this.drawArrowsContainer();
         }
