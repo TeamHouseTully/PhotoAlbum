@@ -1,5 +1,4 @@
 var Event = (function () {
-
     var ShowHideVirtualBackground = (function () {
         function ShowHideVirtualBackground() {
             this.showVirtualBackground();
@@ -9,9 +8,9 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.showVirtualBackground = function () {
             $('.smallImage').on('click', function () {
                 $('.virtualBackground').show();
-
                 new Event.SlideImage();
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
+
                 GeneralVariables.currentImage = parseInt($(this).attr('class').split(' ')[1]);
 
                 new Event.DisableScrollingPage();
@@ -21,8 +20,6 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.hideVirtualBackground = function () {
             $(document).on('click', function (event) {
                 if (event.target.className.split(' ')[0] == 'virtualImageHolder') {
-                    $(".bigImageLeftArrowHolder").off();
-                    $(".bigImageRightArrowHolder").off();
                     hideImage();
                 }
             });
@@ -42,18 +39,16 @@ var Event = (function () {
 
                 new Event.EnableScrollingPage();
             };
-
         }
 
         return ShowHideVirtualBackground ;
-
     })();
+
 
     var LoadVirtualImage = (function () {
         function LoadVirtualImage(imageId) {
             this.setImageId(imageId);
             this.setImageName();
-
             this.appendImage();
         }
 
@@ -78,10 +73,11 @@ var Event = (function () {
         }
 
         return LoadVirtualImage;
-
     })();
 
     var SlideImage = (function () {
+        var targetClass;
+
         function SlideImage() {
             this.nextImage();
             this.prevImage();
@@ -90,10 +86,13 @@ var Event = (function () {
         }
 
         SlideImage.prototype.prevImage = function () {
-            $(".bigImageLeftArrowHolder")
-                .on('click', function () {
+            $(document).on('click', function (event) {
+                targetClass = event.target.className.split(' ')[0];
+                if (targetClass == 'bigImageLeftArrowHolder' ||
+                    targetClass == 'leftArrow') {
                     prevImageLogic();
-                });
+                }
+            });
 
             $(document).on('keydown', function (event) {
                 if (event.which == 37) {
@@ -103,7 +102,6 @@ var Event = (function () {
         }
 
         var prevImageLogic = function () {
-
             GeneralVariables.currentImage = isNaN(GeneralVariables.currentImage) ? '' :
                 (GeneralVariables.currentImage ? --GeneralVariables.currentImage :
                 GeneralVariables.JSONImageData.length - 1);
@@ -116,10 +114,14 @@ var Event = (function () {
         }
 
         SlideImage.prototype.nextImage = function () {
-            $(".bigImageRightArrowHolder")
-                .on('click', function () {
+            $(document).on('click', function (event) {
+                targetClass = event.target.className.split(' ')[0];
+                if (targetClass == 'rightArrow' ||
+                    targetClass == 'bigImageCenter' ||
+                    targetClass == 'bigImageRightArrowHolder') {
                     nextImageLogic();
-                });
+                }
+            });
 
             $(document).on('keydown', function (event) {
                 if (event.which == 39) {
@@ -128,14 +130,11 @@ var Event = (function () {
             });
         }
 
-
         var nextImageLogic = function () {
-
             GeneralVariables.currentImage = isNaN(GeneralVariables.currentImage) ? '' :
                 GeneralVariables.currentImage >= GeneralVariables.JSONImageData.length - 1 ?
                     0 : ++GeneralVariables.currentImage;
 
-            console.log(GeneralVariables.currentImage);
             new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].Image.url, GeneralVariables.currentImage);
 
             $(this)
@@ -164,8 +163,8 @@ var Event = (function () {
         }
 
         return SlideImage;
-
     })();
+
 
     var DisableScrollingPage = (function () {
         function DisableScrollingPage() {
@@ -185,7 +184,6 @@ var Event = (function () {
 
         DisableScrollingPage.prototype.disableScrolling = function () {
             var disabledKeyWhich = [32, 33, 34, 38, 40, 35];
-
             $(document).on("keydown", function (event) {
                 if (disabledKeyWhich.indexOf(event.which) !== -1) {
                     event.preventDefault();
@@ -194,8 +192,8 @@ var Event = (function () {
         }
 
         return DisableScrollingPage;
-
     })();
+
 
     var EnableScrollingPage = (function () {
         function EnableScrollingPage() {
@@ -216,8 +214,8 @@ var Event = (function () {
         }
 
         return EnableScrollingPage;
-
     })();
+
 
     return {
         ShowHideVirtualBackground : ShowHideVirtualBackground,
@@ -226,5 +224,4 @@ var Event = (function () {
         DisableScrollingPage: DisableScrollingPage,
         EnableScrollingPage: EnableScrollingPage
     }
-
 })();
