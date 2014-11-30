@@ -1,17 +1,15 @@
 var Image = (function () {
-
     var smallImageContainerClass = '.smallImageContainer',
         bigImageContainerClass = '.virtualImageHolder',
         smallImageClass = 'smallImage',
         bigImageClass = 'bigImage';
 
-    var Image = (function () {
 
+    var Image = (function () {
         function Image (name, id) {
             /*if (this.constructor === Image) {
              throw new Error('Cannot instantiate abstract class Image.');
              }*/
-
             this.setImageName(name);
             this.setImageId(id);
         }
@@ -33,13 +31,12 @@ var Image = (function () {
         }
 
         return Image;
-
     })();
+
 
     var SmallImage = (function () {
         function SmallImage(name, id) {
             Image.apply(this, [name, id]);
-
             this.drawImage();
         }
 
@@ -50,25 +47,22 @@ var Image = (function () {
         SmallImage.prototype.drawImage = function () {
             $(smallImageContainerClass)
                 .filter("." + this.getImageId())
-                .html('<img class="' + smallImageClass  + ' ' + this.getImageId() + '" />');
-
+                .html('<img class="' + smallImageClass + ' ' + this.getImageId() + '" />');
             $('.' + smallImageClass)
                 .filter('.' + this.getImageId())
                 .attr('src',this.getImageName());
         }
 
         return SmallImage;
-
     })();
 
-    var BigImage = (function () {
 
+    var BigImage = (function () {
         var bigImageWidth,
             bigImageHeight;
 
         function BigImage(name, id) {
             Image.apply(this, [name, id]);
-
             this.drawImage();
         }
 
@@ -98,16 +92,16 @@ var Image = (function () {
 
         BigImage.prototype.drawImage = function () {
             $(bigImageContainerClass)
-                .html('<span class="middleHelper"></span><img class="' + bigImageClass + ' ' + this.getImageId() + '" />');
+                .html('<span class="middleHelper"></span><img class="' + bigImageClass + ' ' +
+                this.getImageId() + '" />');
 
             $('.' + bigImageClass)
-                .attr('src',this.getImageName());
+                .attr('src', this.getImageName());
 
             this.drawArrowsContainer();
         }
 
         return BigImage;
-
     })();
 
     return {
@@ -115,5 +109,4 @@ var Image = (function () {
         SmallImage: SmallImage,
         BigImage: BigImage
     }
-
 })();
