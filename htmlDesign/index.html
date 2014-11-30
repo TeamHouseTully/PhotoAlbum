@@ -1,56 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
-	<title>House Tully - Home</title>
-	<link rel="stylesheet" href="styles\pageStyle.css">
-	<link rel="stylesheet" href="styles\carousel.css">
-	<script type="text/javascript" src="scripts\jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="scripts\carousel.js"></script>
+	<title>Test Sammy - Home page</title>
+	<link rel="stylesheet" href="styles/pageStyle.css">
+	<link rel="stylesheet" href="styles/carousel.css">
+	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="lib/sammy-latest.min.js"></script>
+	<script type="text/javascript" src="lib/carousel.js"></script>
 </head>
 <body>
 	<header>
 		<h1>House Tully <span>Photo Album</span></h1>
 		<p>
-			<a href="pages\LogIn.html">Log In</a>
+			<a href="#/logIn">Log In</a>
 			|
-			<a href="pages\Register.html">Register</a>
+			<a href="#/register">Register</a>
 		</p>
-		
+
 		<nav>
 			<ul>
-				<li><a href="#">Home</a></li>
-				<li><a href="pages\gallery.html">Gallery</a></li>
-				<li><a href="pages\team.html">Team</a></li>
+				<li><a href="#/home">Home</a></li>
+				<li><a href="#/gallery">Gallery</a></li>
+				<li><a href="#/team">Team</a></li>
+				<li><a href="#/addAlbum">Add Album</a></li>
 			</ul>
 		</nav>
-		<hr />		
-	</header>
-	<section>
-		<h2>Most highly ranked albums:</h2>
 
-		<div id="carousel-outer">
-			<a id="previousLink" href="#">&lt;</a>
-				<div id="carousel-inner">
-					<a class="shown" href="pages\album1.html"><img src="images\mostRankedAlbums\album1.jpg" alt="album1 cover" /></a>
-					<a class="hiden" href="#"><img src="images\mostRankedAlbums\album2.jpg" alt="album2 cover"></a>
-					<a class="hiden" href="#"><img src="images\mostRankedAlbums\album3.jpg" alt="album3 cover"></a>
-					<a class="hiden" href="#"><img src="images\mostRankedAlbums\album4.jpg" alt="album4 cover"></a>
-					<a class="hiden" href="#"><img src="images\mostRankedAlbums\album5.jpg" alt="album5 cover"></a>
-					<a class="hiden" href="#"><img src="images\mostRankedAlbums\album6.jpg" alt="album6 cover"></a>
-				</div>
-			<a id="nextLink" href="#">&gt;</a>
-		</div>
-	</section>
-	<section>
-		<h2>Welcome!!</h2>
-		<p>And some content here...</p>
-		<p>Maybe some more here..</p>
-		<p>And here..</p>
-	</section>
+		<hr />
+	</header>	
+
+	<div id="content"></div>
+
 	<footer>
 		<hr />
-		<p>Web site develop by House Tully &trade; 2014</p>
+		<p>footer</p>
 	</footer>
+
+	<script>
+		var sammyTest = $.sammy(function() {
+			this.element_selector = '#content';
+
+			this.get('#/logIn', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/logIn.html');
+			});
+
+			this.get('#/register', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/register.html');
+			});
+
+			this.get('#/home', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/home.html');
+			});
+
+			this.get('#/gallery', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/gallery.html');
+			});
+
+			this.get('#/team', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/team.html');
+			});
+
+			this.get('#/addAlbum', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/addAlbum.html');
+			});
+
+			this.get('#/album1', function(context) {
+				context.app.swap('');
+				context.$element().load('pages/album1.html');
+			});
+		});
+
+		$(function() {
+			sammyTest.run('#/home');
+		});
+	</script>
 </body>
 </html>
