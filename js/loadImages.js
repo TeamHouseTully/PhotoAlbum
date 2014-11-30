@@ -1,36 +1,43 @@
 var ImageLoader = (function () {
-    var PARSE_APP_ID = "w8RpxfKV4dvAI9B5mm3hDX0w1D995KKEcycW3sX8";
-    var PARSE_REST_API_KEY = "pJlAQ67ALlzu4yAGXhsJptlbIl5kMUfHdqNNfVFV";
+
     var ImageSelector = (function () {
         function ImageSelector() {
-            this.getImagesFromDataBase();
+            if (sessionStorage.getObj('JSONImageData')) {
+                GeneralVariables.JSONImageData = sessionStorage.getObj('JSONImageData');
 
-            $(document).ajaxComplete(function () {
                 new ImageLoader.ImageMounter();
                 new Container.BigImageContainer(0);
                 new Event.ShowHideVirtualBackground();
-                new Event.SlideImage();
-            });
+            }
+            else {
+                this.getImagesFromDataBase();
+
+                $(document).ajaxComplete(function () {
+                    new ImageLoader.ImageMounter();
+                    new Container.BigImageContainer(0);
+                    new Event.ShowHideVirtualBackground();
+                });
+            }
+            console.log(sessionStorage.getObj('JSONImageData'));
         }
 
         ImageSelector.prototype.getImagesFromDataBase = function () {
             $.ajax({
                 method: "GET",
-                headers: {
-                    "X-Parse-Application-Id": PARSE_APP_ID,
-                    "X-Parse-REST-API-Key": PARSE_REST_API_KEY
-                },
-                url: "https://api.parse.com/1/classes/Images"
+                headers: GeneralVariables.headers,
+                url: GeneralVariables.url
             }).success(function(data) {
                 GeneralVariables.JSONImageData = data.results;
+
+                sessionStorage.setObj('JSONImageData', GeneralVariables.JSONImageData);
             }).error(function() {
                 alert('Cannot load images.');
             });
         };
 
         return ImageSelector;
-
     })();
+
 
     var ImageMounter = (function () {
         function ImageMounter() {
@@ -40,7 +47,8 @@ var ImageLoader = (function () {
         ImageMounter.prototype.mountImage = function () {
             for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
                 var url = GeneralVariables.JSONImageData[i].Thumbnail.url;
-                if(url!== undefined && url!=null){
+
+                if(url) {
                     new Container.SmallImageContainer(i);
                     new Image.SmallImage(url, i);
                 }
@@ -48,12 +56,11 @@ var ImageLoader = (function () {
         };
 
         return ImageMounter;
-
     })();
+
 
     return {
         ImageSelector: ImageSelector,
         ImageMounter: ImageMounter
     }
-
 })();
