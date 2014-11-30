@@ -1,33 +1,43 @@
 var ImageLoader = (function () {
 
-    var stringImageData;
-
     var ImageSelector = (function () {
         function ImageSelector() {
-            this.getImagesFromDataBase();
-
-            $(document).ajaxComplete(function () {
-                GeneralVariables.JSONImageData = JSON.parse(stringImageData);
+            if (sessionStorage.getObj('JSONImageData')) {
+                GeneralVariables.JSONImageData = sessionStorage.getObj('JSONImageData');
 
                 new ImageLoader.ImageMounter();
                 new Container.BigImageContainer(0);
                 new Event.ShowHideVirtualBackground();
-                new Event.SlideImage();
-            });
+            }
+            else {
+                this.getImagesFromDataBase();
+
+                $(document).ajaxComplete(function () {
+                    new ImageLoader.ImageMounter();
+                    new Container.BigImageContainer(0);
+                    new Event.ShowHideVirtualBackground();
+                });
+            }
+            console.log(sessionStorage.getObj('JSONImageData'));
         }
 
         ImageSelector.prototype.getImagesFromDataBase = function () {
             $.ajax({
-                url: 'selectAllImages.php',
-                success: function (result) {
-                    stringImageData = result;
-                }
+                method: "GET",
+                headers: GeneralVariables.headers,
+                url: GeneralVariables.url
+            }).success(function(data) {
+                GeneralVariables.JSONImageData = data.results;
+
+                sessionStorage.setObj('JSONImageData', GeneralVariables.JSONImageData);
+            }).error(function() {
+                alert('Cannot load images.');
             });
-        }
+        };
 
         return ImageSelector;
-
     })();
+
 
     var ImageMounter = (function () {
         function ImageMounter() {
@@ -36,19 +46,21 @@ var ImageLoader = (function () {
 
         ImageMounter.prototype.mountImage = function () {
             for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
-                new Container.SmallImageContainer(i);
+                var url = GeneralVariables.JSONImageData[i].Thumbnail.url;
 
-                new Image.SmallImage(GeneralVariables.JSONImageData[i].imagename, i);
+                if(url) {
+                    new Container.SmallImageContainer(i);
+                    new Image.SmallImage(url, i);
+                }
             }
-        }
+        };
 
         return ImageMounter;
-
     })();
+
 
     return {
         ImageSelector: ImageSelector,
         ImageMounter: ImageMounter
     }
-
 })();

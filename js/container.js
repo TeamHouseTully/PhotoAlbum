@@ -1,14 +1,12 @@
 var Container = (function () {
-
     var APPEND_TO_CLASS_NAME = 'imagesHolder',
         SMALL_IMAGES_CONTAINER_CLASS_NAME = 'smallImageContainer';
 
     var Container = (function () {
         function Container (containerId) {
-            /*if (this.constructor === Image) {
-                throw new Error('Cannot instantiate abstract class Image.');
-            }*/
-
+            //if (this.constructor === Image) {
+            //    throw new Error('Cannot instantiate abstract class Image.');
+            //}
             this.setContainerId(containerId);
         }
 
@@ -21,8 +19,8 @@ var Container = (function () {
         }
 
         return Container;
-
     })();
+
 
     var SmallImageContainer = (function () {
         function SmallImageContainer(containerId) {
@@ -35,12 +33,13 @@ var Container = (function () {
 
         SmallImageContainer.prototype.appendContainer = function () {
             $("." + APPEND_TO_CLASS_NAME)
-                .append('<span class="' + SMALL_IMAGES_CONTAINER_CLASS_NAME + ' ' + this.getContainerId() + '"></span>');
+                .append('<span class="' + SMALL_IMAGES_CONTAINER_CLASS_NAME + ' ' + this.getContainerId() +
+                '"></span>');
         }
 
         return SmallImageContainer;
-
     })();
+
 
     var BigImageContainer = (function () {
         function BigImageContainer(containerId) {
@@ -63,49 +62,26 @@ var Container = (function () {
         BigImageContainer.prototype.createVirtualImageHolder = function () {
             $(".virtualBackground")
                 .append('<div class="virtualImageHolder ' + this.getContainerId() + '"></div>')
-                .prepend($('<div class="aboveTheBigImage"></div>')
-                    .append('<div class="bigImageLeftArrowHolder"></div>')
-                    .append('<div class="bigImageCenter"></div>')
-                    .append($('<div class="bigImageRightArrowHolder"></div>')
-                        .append($('<div class="closeVirtualImage"></div>')
-                            .append($('<img src="' + GeneralVariables.DESIGN_DIRECTORY + 'Cross.png" title="Close" />')
-                        )
-                    )))
+                .prepend('<div class="aboveTheBigImage"></div>')
                 .hide();
+
+            $('.aboveTheBigImage')
+                .append('<div class="bigImageLeftArrowHolder"></div>')
+                .append('<div class="bigImageCenter"></div>')
+                .append(
+                $('<div class="bigImageRightArrowHolder"></div>')
+                    .append('<div class="closeVirtualImage"></div>'));
+
+            new Button.Cross(0);
         }
 
         return BigImageContainer;
-
     })();
 
-    var AboveTheBigImage = (function () {
-        function AboveTheBigImage() {
-            this.drawArrowsContainer();
-        }
-
-        AboveTheBigImage.prototype.drawArrowsContainer = function () {
-            $(".bigImage").on('load', function () {
-                $('.aboveTheBigImage')
-                    .css('width', $(this).css("width"))
-                    .css('height', $(this).css("height"));
-            });
-
-            $(window).on('resize', function () {
-                $('.aboveTheBigImage')
-                    .css('width', $(".bigImage").css("width"))
-                    .css('height', $(".bigImage").css("height"));
-            });
-        }
-
-        return AboveTheBigImage;
-
-    })();
 
     return {
         Container: Container,
         SmallImageContainer: SmallImageContainer,
-        BigImageContainer: BigImageContainer,
-        AboveTheBigImage: AboveTheBigImage
+        BigImageContainer: BigImageContainer
     }
-
 })();

@@ -1,5 +1,4 @@
 var Event = (function () {
-
     var ShowHideVirtualBackground = (function () {
         function ShowHideVirtualBackground() {
             this.showVirtualBackground();
@@ -9,7 +8,6 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.showVirtualBackground = function () {
             $('.smallImage').on('click', function () {
                 $('.virtualBackground').show();
-
                 new Event.SlideImage();
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
 
@@ -22,33 +20,40 @@ var Event = (function () {
         ShowHideVirtualBackground.prototype.hideVirtualBackground = function () {
             $(document).on('click', function (event) {
                 if (event.target.className.split(' ')[0] == 'virtualImageHolder') {
-                    $('.virtualBackground').hide();
+                    hideImage();
+                }
+            });
 
-                    new Event.EnableScrollingPage();
+            $(document).on('keydown', function (event) {
+                if (event.which == 27) {
+                    hideImage();
                 }
             });
 
             $('.closeVirtualImage').on('click', function () {
+                hideImage();
+            });
+
+            var hideImage = function () {
                 $('.virtualBackground').hide();
 
                 new Event.EnableScrollingPage();
-            });
+            };
         }
 
         return ShowHideVirtualBackground ;
-
     })();
+
 
     var LoadVirtualImage = (function () {
         function LoadVirtualImage(imageId) {
             this.setImageId(imageId);
             this.setImageName();
-
             this.appendImage();
         }
 
         LoadVirtualImage.prototype.setImageName = function () {
-            this._imageName = GeneralVariables.JSONImageData[this.getImageId()].imagename;
+            this._imageName = GeneralVariables.JSONImageData[this.getImageId()].Image.url;
         }
 
         LoadVirtualImage.prototype.getImageName = function () {
@@ -68,10 +73,11 @@ var Event = (function () {
         }
 
         return LoadVirtualImage;
-
     })();
 
     var SlideImage = (function () {
+        var targetClass;
+
         function SlideImage() {
             this.nextImage();
             this.prevImage();
@@ -80,13 +86,16 @@ var Event = (function () {
         }
 
         SlideImage.prototype.prevImage = function () {
-            $(".leftArrow, .bigImageLeftArrowHolder")
-                .on('click', function () {
+            $(document).on('click', function (event) {
+                targetClass = event.target.className.split(' ')[0];
+                if (targetClass == 'bigImageLeftArrowHolder' ||
+                    targetClass == 'leftArrow') {
                     prevImageLogic();
+                }
             });
 
-            $(document).on('keypress', function (event) {
-                if (event.keyCode == 37) {
+            $(document).on('keydown', function (event) {
+                if (event.which == 37) {
                     prevImageLogic();
                 }
             });
@@ -94,10 +103,10 @@ var Event = (function () {
 
         var prevImageLogic = function () {
             GeneralVariables.currentImage = isNaN(GeneralVariables.currentImage) ? '' :
-                GeneralVariables.currentImage ? --GeneralVariables.currentImage :
-                GeneralVariables.JSONImageData.length - 1;
+                (GeneralVariables.currentImage ? --GeneralVariables.currentImage :
+                GeneralVariables.JSONImageData.length - 1);
 
-            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].Image.url, GeneralVariables.currentImage);
 
             $(this)
                 .data('prevImage', GeneralVariables.currentImage - 1 < 0 ?
@@ -105,13 +114,17 @@ var Event = (function () {
         }
 
         SlideImage.prototype.nextImage = function () {
-            $(".rightArrow, .bigImageRightArrowHolder, .bigImageCenter")
-                .on('click', function () {
-                nextImageLogic();
+            $(document).on('click', function (event) {
+                targetClass = event.target.className.split(' ')[0];
+                if (targetClass == 'rightArrow' ||
+                    targetClass == 'bigImageCenter' ||
+                    targetClass == 'bigImageRightArrowHolder') {
+                    nextImageLogic();
+                }
             });
 
-            $(document).on('keypress', function (event) {
-                if (event.keyCode == 39) {
+            $(document).on('keydown', function (event) {
+                if (event.which == 39) {
                     nextImageLogic();
                 }
             });
@@ -122,7 +135,7 @@ var Event = (function () {
                 GeneralVariables.currentImage >= GeneralVariables.JSONImageData.length - 1 ?
                     0 : ++GeneralVariables.currentImage;
 
-            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].imagename, GeneralVariables.currentImage);
+            new Image.BigImage(GeneralVariables.JSONImageData[GeneralVariables.currentImage].Image.url, GeneralVariables.currentImage);
 
             $(this)
                 .data('nextImage', GeneralVariables.currentImage + 1 <=
@@ -150,8 +163,8 @@ var Event = (function () {
         }
 
         return SlideImage;
-
     })();
+
 
     var DisableScrollingPage = (function () {
         function DisableScrollingPage() {
@@ -170,23 +183,17 @@ var Event = (function () {
         }
 
         DisableScrollingPage.prototype.disableScrolling = function () {
-            var disabledKeyCodes = [33, 34, 38, 40, 35];
-            var disabledKeyWhich = [32];
-
-            $(document).on("keypress keyup keydown", function (event) {
+            var disabledKeyWhich = [32, 33, 34, 38, 40, 35];
+            $(document).on("keydown", function (event) {
                 if (disabledKeyWhich.indexOf(event.which) !== -1) {
-                    event.preventDefault();
-                }
-
-                if (disabledKeyCodes.indexOf(event.keyCode) !== -1) {
                     event.preventDefault();
                 }
             });
         }
 
         return DisableScrollingPage;
-
     })();
+
 
     var EnableScrollingPage = (function () {
         function EnableScrollingPage() {
@@ -203,12 +210,12 @@ var Event = (function () {
         }
 
         EnableScrollingPage.prototype.enableScrolling = function () {
-            $(document).unbind("keypress keyup keydown");
+            $(document).unbind("keydown");
         }
 
         return EnableScrollingPage;
-
     })();
+
 
     return {
         ShowHideVirtualBackground : ShowHideVirtualBackground,
@@ -217,5 +224,4 @@ var Event = (function () {
         DisableScrollingPage: DisableScrollingPage,
         EnableScrollingPage: EnableScrollingPage
     }
-
 })();
