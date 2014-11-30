@@ -24,7 +24,7 @@ var ImageLoader = (function () {
             }).success(function(data) {
                 GeneralVariables.JSONImageData = data.results;
             }).error(function() {
-                alert('Cannot load countries.');
+                alert('Cannot load images.');
             });
         };
 
@@ -40,12 +40,9 @@ var ImageLoader = (function () {
         ImageMounter.prototype.mountImage = function () {
             for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
                 var url = GeneralVariables.JSONImageData[i].Thumbnail.url;
-                var url2 = GeneralVariables.JSONImageData[i].Image.url;
                 if(url!== undefined && url!=null){
                     new Container.SmallImageContainer(i);
-                    new Container.BigImageContainer(i);
                     new Image.SmallImage(url, i);
-                    new Image.BigImage(url2,i)
                 }
             }
         };
