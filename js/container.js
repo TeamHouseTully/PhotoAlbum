@@ -1,14 +1,12 @@
 var Container = (function () {
-
     var APPEND_TO_CLASS_NAME = 'imagesHolder',
         SMALL_IMAGES_CONTAINER_CLASS_NAME = 'smallImageContainer';
 
     var Container = (function () {
         function Container (containerId) {
-            /*if (this.constructor === Image) {
-             throw new Error('Cannot instantiate abstract class Image.');
-             }*/
-
+            //if (this.constructor === Image) {
+            //    throw new Error('Cannot instantiate abstract class Image.');
+            //}
             this.setContainerId(containerId);
         }
 
@@ -21,8 +19,8 @@ var Container = (function () {
         }
 
         return Container;
-
     })();
+
 
     var SmallImageContainer = (function () {
         function SmallImageContainer(containerId) {
@@ -40,8 +38,8 @@ var Container = (function () {
         }
 
         return SmallImageContainer;
-
     })();
+
 
     var BigImageContainer = (function () {
         function BigImageContainer(containerId) {
@@ -78,13 +76,12 @@ var Container = (function () {
         }
 
         return BigImageContainer;
-
     })();
+
 
     return {
         Container: Container,
         SmallImageContainer: SmallImageContainer,
         BigImageContainer: BigImageContainer
     }
-
 })();
