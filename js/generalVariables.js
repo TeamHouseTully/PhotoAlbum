@@ -41,6 +41,8 @@ var HorizontalSliderVariables = (function () {
         smallImagesHolderWidth,
         arrowHoldersWidth,
         buildSmallImages = function () {
+            $('.' + HorizontalSliderSelectors.IMAGES_HOLDER_CLASS).empty();
+
             new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
 
             HorizontalSliderVariables.setSmallImagesSizes();

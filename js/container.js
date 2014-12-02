@@ -121,21 +121,25 @@ var Container = (function () {
         }
 
         HorizontalSliderContainer.prototype.arrowHolders = function () {
-            $('.' + HorizontalSliderSelectors.SLIDER_BODY_CLASS)
-                .append('<span class="' + HorizontalSliderSelectors.LEFT_ARROW_CLASS + '">' +
-                '<img class="' + HorizontalSliderSelectors.LEFT_ARROW_IMAGE_CLASS  + '" src="' +
-                GeneralVariables.DESIGN_DIRECTORY + 'LeftArrow.png" /></span>')
-                .append('<span class="' + HorizontalSliderSelectors.RIGHT_ARROW_CLASS + '">' +
-                '<img class="' + HorizontalSliderSelectors.RIGHT_ARROW_IMAGE_CLASS  + '" src="' +
-                GeneralVariables.DESIGN_DIRECTORY + 'RightArrow.png" /></span>');
+            if (!$('.' + HorizontalSliderSelectors.LEFT_ARROW_CLASS).length) {
+                $('.' + HorizontalSliderSelectors.SLIDER_BODY_CLASS)
+                    .append('<span class="' + HorizontalSliderSelectors.LEFT_ARROW_CLASS + '">' +
+                    '<img class="' + HorizontalSliderSelectors.LEFT_ARROW_IMAGE_CLASS + '" src="' +
+                    GeneralVariables.DESIGN_DIRECTORY + 'LeftArrow.png" /></span>')
+                    .append('<span class="' + HorizontalSliderSelectors.RIGHT_ARROW_CLASS + '">' +
+                    '<img class="' + HorizontalSliderSelectors.RIGHT_ARROW_IMAGE_CLASS + '" src="' +
+                    GeneralVariables.DESIGN_DIRECTORY + 'RightArrow.png" /></span>');
+            }
         }
 
         HorizontalSliderContainer.prototype.imagesHolder = function () {
             imagesHolderData();
 
-            $('.' + HorizontalSliderSelectors.LEFT_ARROW_CLASS)
-                .after($('<div class="' + HorizontalSliderSelectors.IMAGES_HOLDER_CLASS + '"></div>')
-                    .css('width', HorizontalSliderVariables.smallImagesHolderWidth));
+            if (!$('.' + HorizontalSliderSelectors.IMAGES_HOLDER_CLASS).length) {
+                $('.' + HorizontalSliderSelectors.LEFT_ARROW_CLASS)
+                    .after($('<div class="' + HorizontalSliderSelectors.IMAGES_HOLDER_CLASS + '"></div>')
+                        .css('width', HorizontalSliderVariables.smallImagesHolderWidth));
+            }
 
             $(window).on('resize', function () {
                 imagesHolderData();
