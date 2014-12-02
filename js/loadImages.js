@@ -5,6 +5,8 @@ var ImageLoader = (function () {
             if (sessionStorage.getObj('JSONImageData')) {
                 GeneralVariables.JSONImageData = sessionStorage.getObj('JSONImageData');
 
+                new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
+                new Event.HorizontalSliderSizes();
                 new ImageLoader.ImageMounter();
                 new Container.BigImageContainer(0);
                 new Event.ShowHideVirtualBackground();
@@ -13,12 +15,13 @@ var ImageLoader = (function () {
                 this.getImagesFromDataBase();
 
                 $(document).ajaxComplete(function () {
+                    new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
+                    new Event.HorizontalSliderSizes();
                     new ImageLoader.ImageMounter();
                     new Container.BigImageContainer(0);
                     new Event.ShowHideVirtualBackground();
                 });
             }
-            console.log(sessionStorage.getObj('JSONImageData'));
         }
 
         ImageSelector.prototype.getImagesFromDataBase = function () {
@@ -40,17 +43,21 @@ var ImageLoader = (function () {
 
 
     var ImageMounter = (function () {
+        var i,
+            url;
+
         function ImageMounter() {
             this.mountImage();
+            HorizontalSliderVariables.buildSmallImages();
         }
 
         ImageMounter.prototype.mountImage = function () {
-            for (var i = 0; i < GeneralVariables.JSONImageData.length; i++) {
-                var url = GeneralVariables.JSONImageData[i].Thumbnail.url;
+            for (i = 0; i < GeneralVariables.JSONImageData.length; i++) {
+                url = GeneralVariables.JSONImageData[i].Thumbnail.url;
 
                 if(url) {
-                    new Container.SmallImageContainer(i);
-                    new Image.SmallImage(url, i);
+                    new Container.MediumImageContainer(i, '.imagesHolder');
+                    new Image.MediumImage(url, i);
                 }
             }
         };

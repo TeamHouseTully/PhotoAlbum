@@ -6,7 +6,7 @@ var Event = (function () {
         }
 
         ShowHideVirtualBackground.prototype.showVirtualBackground = function () {
-            $('.smallImage').on('click', function () {
+            $('.mediumImage').on('click', function () {
                 $('.virtualBackground').show();
                 new Event.SlideImage();
                 new Event.LoadVirtualImage($(this).attr('class').split(' ')[1]);
@@ -217,11 +217,50 @@ var Event = (function () {
     })();
 
 
+    var HorizontalSliderSizes = (function () {
+        function HorizontalSliderSizes () {
+            this.resizeEvent();
+            this.moveRight();
+            this.moveLeft();
+        }
+
+        HorizontalSliderSizes.prototype.resizeEvent = function () {
+            $(window).on('resize', function () {
+                HorizontalSliderVariables.buildSmallImages();
+            });
+        }
+
+        HorizontalSliderSizes.prototype.moveRight = function () {
+            $(document).on('click', '.' + HorizontalSliderSelectors.RIGHT_ARROW_CLASS, function () {
+                HorizontalSliderVariables.startIndex >=
+                (HorizontalSliderVariables.JSONImages.length - HorizontalSliderVariables.smallImagesCount) ?
+                    HorizontalSliderVariables.startIndex = HorizontalSliderVariables.JSONImages.length -
+                    HorizontalSliderVariables.smallImagesCount :
+                    HorizontalSliderVariables.startIndex += 1;
+
+                HorizontalSliderVariables.buildSmallImages();
+            });
+        }
+
+        HorizontalSliderSizes.prototype.moveLeft = function () {
+            $(document).on('click', '.' + HorizontalSliderSelectors.LEFT_ARROW_CLASS, function () {
+                HorizontalSliderVariables.startIndex <= 0 ? HorizontalSliderVariables.startIndex = 0 :
+                    HorizontalSliderVariables.startIndex -= 1;
+
+                HorizontalSliderVariables.buildSmallImages();
+            });
+        }
+
+        return HorizontalSliderSizes;
+    })();
+
+
     return {
         ShowHideVirtualBackground : ShowHideVirtualBackground,
         LoadVirtualImage: LoadVirtualImage,
         SlideImage: SlideImage,
         DisableScrollingPage: DisableScrollingPage,
-        EnableScrollingPage: EnableScrollingPage
+        EnableScrollingPage: EnableScrollingPage,
+        HorizontalSliderSizes: HorizontalSliderSizes
     }
 })();

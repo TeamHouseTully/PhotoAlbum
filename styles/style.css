@@ -8,7 +8,7 @@ img {
     max-height: 100%;
 }
 
-.smallImage {
+.mediumImage {
      min-width: 100%;
      cursor: pointer;
      box-shadow: 2px -2px 4px black;
@@ -39,7 +39,7 @@ header > .wrapper {
     margin-bottom: -4px;
 }
 
-.smallImageContainer {
+.mediumImageContainer {
     width: 25%;
     border-top: 4px solid #eeeeee;
     border-right: 4px solid #eeeeee;
@@ -131,6 +131,41 @@ footer {
     display: inline-block;
 }
 
+/* SMALLIMAGES BAR */
+.horizontalSliderBody {
+    width: 100%;
+}
+
+.horizontalSliderLeftArrowHolder, .horizontalSliderRightArrowHolder {
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    height: 100px;
+    width: 50px;
+    line-height: 100px;
+    cursor: pointer;
+}
+
+.horizontalSliderLeftArrowImage, .horizontalSliderRightArrowImage {
+    vertical-align: middle;
+    width: 30px;
+}
+
+.horizontalSliderImagesHolder {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100px;
+    vertical-align: top;
+    text-align: center;
+    overflow: hidden;
+}
+
+.horizontalSliderSmallImageHolder {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100px;
+}
+
 @media only screen and (min-width: 1025px) {
     .wrapper {
         width: 1024px;
@@ -156,7 +191,7 @@ footer {
         width: 100%;
     }
 
-    .smallImageContainer {
+    .mediumImageContainer {
         width: 50%;
         border-top: 15px solid #eeeeee;
         border-right: 15px solid #eeeeee;
@@ -171,7 +206,7 @@ footer {
         margin-bottom: -15px;
     }
 
-    .smallImage {
+    .mediumImage {
          box-shadow: 7px -7px 12px black;
     }
 
@@ -193,7 +228,7 @@ footer {
         width: 100%;
     }
 
-    .smallImageContainer {
+    .mediumImageContainer {
         width: 100%;
         border-top: 15px solid #eeeeee;
         border-right: 15px solid #eeeeee;
@@ -208,7 +243,7 @@ footer {
         margin-bottom: -15px;
     }
 
-    .smallImage {
+    .mediumImage {
         box-shadow: 7px -7px 12px black;
     }
 

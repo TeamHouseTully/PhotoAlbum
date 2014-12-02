@@ -1,7 +1,8 @@
 var Image = (function () {
-    var smallImageContainerClass = '.smallImageContainer',
+    var mediumImageContainerClass = '.mediumImageContainer',
         bigImageContainerClass = '.virtualImageHolder',
         smallImageClass = 'smallImage',
+        mediumImageClass = 'mediumImage',
         bigImageClass = 'bigImage';
 
 
@@ -35,25 +36,51 @@ var Image = (function () {
 
 
     var SmallImage = (function () {
-        function SmallImage(name, id) {
+        function SmallImage(name, id, appendTo) {
             Image.apply(this, [name, id]);
-            this.drawImage();
+
+            this.drawImage(appendTo);
         }
 
         SmallImage.prototype = new Image();
 
         SmallImage.prototype.imageType = 'small';
 
-        SmallImage.prototype.drawImage = function () {
-            $(smallImageContainerClass)
+        SmallImage.prototype.drawImage = function (appendTo) {
+            $(appendTo)
                 .filter("." + this.getImageId())
                 .html('<img class="' + smallImageClass + ' ' + this.getImageId() + '" />');
+
             $('.' + smallImageClass)
                 .filter('.' + this.getImageId())
-                .attr('src',this.getImageName());
+                .attr('src', this.getImageName());
         }
 
         return SmallImage;
+    })();
+
+
+    var MediumImage = (function () {
+        function MediumImage(name, id) {
+            Image.apply(this, [name, id]);
+            this.drawImage();
+        }
+
+        MediumImage.prototype = new Image();
+
+        MediumImage.prototype.imageType = 'mid';
+
+        MediumImage.prototype.drawImage = function () {
+            $(mediumImageContainerClass)
+                .filter("." + this.getImageId())
+                .html('<img class="' + mediumImageClass + ' ' + this.getImageId() + '" />');
+
+            $('.' + mediumImageClass)
+                .filter('.' + this.getImageId())
+                .attr('src', this.getImageName());
+        }
+
+        return MediumImage;
     })();
 
 
@@ -107,6 +134,7 @@ var Image = (function () {
     return {
         Image: Image,
         SmallImage: SmallImage,
-        BigImage: BigImage
+        BigImage: BigImage,
+        MediumImage: MediumImage
     }
 })();
