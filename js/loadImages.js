@@ -5,7 +5,7 @@ var ImageLoader = (function () {
             if (sessionStorage.getObj('JSONImageData')) {
                 GeneralVariables.JSONImageData = sessionStorage.getObj('JSONImageData');
 
-                new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
+                // new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
                 new Event.HorizontalSliderSizes();
                 new ImageLoader.ImageMounter();
                 new Container.BigImageContainer(0);
@@ -15,7 +15,7 @@ var ImageLoader = (function () {
                 this.getImagesFromDataBase();
 
                 $(document).ajaxComplete(function () {
-                    new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
+                    // new Container.HorizontalSliderContainer(0, 'body', GeneralVariables.JSONImageData);
                     new Event.HorizontalSliderSizes();
                     new ImageLoader.ImageMounter();
                     new Container.BigImageContainer(0);

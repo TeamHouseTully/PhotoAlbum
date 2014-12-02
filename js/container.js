@@ -114,8 +114,10 @@ var Container = (function () {
         HorizontalSliderContainer.prototype = new Container();
 
         HorizontalSliderContainer.prototype.generateBody = function (appendTo) {
-            $(appendTo)
-                .append($('<div class="' + HorizontalSliderSelectors.SLIDER_BODY_CLASS + '"></div>'));
+            if (!$('.' + HorizontalSliderSelectors.SLIDER_BODY_CLASS).length) {
+                $(appendTo)
+                    .append($('<div class="' + HorizontalSliderSelectors.SLIDER_BODY_CLASS + '"></div>'));
+            }
         }
 
         HorizontalSliderContainer.prototype.arrowHolders = function () {
