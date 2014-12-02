@@ -1,85 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Test Sammy - Home page</title>
-	<link rel="stylesheet" href="styles/pageStyle.css">
-	<link rel="stylesheet" href="styles/carousel.css">
-	<script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="lib/sammy-latest.min.js"></script>
-	<script type="text/javascript" src="lib/carousel.js"></script>
+    <meta charset="UTF-8">
+    <title>Test Sammy - Home page</title>
+    <link rel="stylesheet" href="styles/pageStyle.css">
+    <link rel="stylesheet" href="styles/carousel.css">
+    <script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="lib/sammy-latest.min.js"></script>
+    <script type="text/javascript" src="lib/carousel.js"></script>
 </head>
 <body>
-	<header>
-		<h1>House Tully <span>Photo Album</span></h1>
-		<p>
-			<a href="#/logIn">Log In</a>
-			|
-			<a href="#/register">Register</a>
-		</p>
+<header>
+    <h1>House Tully <span>Photo Album</span></h1>
+    <p>
+        <a href="#/logIn">Log In</a>
+        |
+        <a href="#/register">Register</a>
+    </p>
 
-		<nav>
-			<ul>
-				<li><a href="#/home">Home</a></li>
-				<li><a href="#/gallery">Gallery</a></li>
-				<li><a href="#/team">Team</a></li>
-				<li><a href="#/addAlbum">Add Album</a></li>
-			</ul>
-		</nav>
+    <nav>
+        <ul>
+            <li><a href="#/home">Home</a></li>
+            <li><a href="#/gallery">Gallery</a></li>
+            <li><a href="#/team">Team</a></li>
+            <li><a href="#/addAlbum">Add Album</a></li>
+        </ul>
+    </nav>
 
-		<hr />
-	</header>	
+    <hr />
+</header>
 
-	<div id="content"></div>
+<div id="content"></div>
 
-	<footer>
-		<hr />
-		<p>footer</p>
-	</footer>
+<footer>
+    <hr />
+    <p>footer</p>
+</footer>
 
-	<script>
-		var sammyTest = $.sammy(function() {
-			this.element_selector = '#content';
+<script>
+    var sammyTest = $.sammy(function() {
+        this.element_selector = '#content';
 
-			this.get('#/logIn', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/logIn.html');
-			});
+        this.get('#/logIn', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/logIn.html');
+        });
 
-			this.get('#/register', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/register.html');
-			});
+        this.get('#/register', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/register.html');
+        });
 
-			this.get('#/home', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/home.html');
-			});
+        this.get('#/home', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/home.html');
+        });
 
-			this.get('#/gallery', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/gallery.html');
-			});
+        this.get('#/gallery', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/gallery.html');
+        });
 
-			this.get('#/team', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/team.html');
-			});
+        this.get('#/team', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/team.html');
+        });
 
-			this.get('#/addAlbum', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/addAlbum.html');
-			});
+        this.get('#/addAlbum', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/addAlbum.html');
+        });
 
-			this.get('#/album1', function(context) {
-				context.app.swap('');
-				context.$element().load('pages/album1.html');
-			});
-		});
+        this.get('#/album1', function(context) {
+            context.app.swap('');
+            context.$element().load('pages/album1.html');
+        });
+    });
 
-		$(function() {
-			sammyTest.run('#/home');
-		});
-	</script>
+    $(function() {
+        sammyTest.run('#/home');
+    });
+</script>
 </body>
 </html>
