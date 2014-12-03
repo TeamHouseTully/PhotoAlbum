@@ -26,20 +26,11 @@ $(function() {
                     "ACL": {'*':{'read': true}}
                 }),
                 url: "https://api.parse.com/1/users",
-                success: greeting,
+                success: registrationSuccessful,
                 error: errorFunction
             });
         }else{
             alert('passwords doesnt match!');
         }
     }
-
-    function greeting() {
-        alert('Registration successful! You can log on now.');
-    }
-
-    function errorFunction() {
-        alert("Ajax failed");
-    }
-
 });

@@ -16,17 +16,8 @@ $(function() {
             },
             data: {username: username, password: password},
             url: URL,
-            success: greeting,
+            success: loginSuccessful,
             error: errorFunction
         });
-    }
-
-    function greeting(data) {
-        var user = data;
-        alert('Login successful!');
-    }
-
-    function errorFunction() {
-        alert("Ajax failed");
     }
 });
