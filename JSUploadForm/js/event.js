@@ -6,14 +6,14 @@ var Event = (function () {
 
         LoadImage.prototype.selectFile = function () {
             $('#JSUploadFile').on('change', function (event) {
-                var canvas = document.getElementById('imgCanvas');
-                var ctx = canvas.getContext('2d');
-                new ImageUploader.HandleImage(event, canvas, ctx);
+                new ImageUploader.UploadedImage(event);
             });
         }
 
         return LoadImage;
     })();
+
+
     return {
         LoadImage: LoadImage
     }
