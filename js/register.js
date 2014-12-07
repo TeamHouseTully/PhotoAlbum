@@ -6,12 +6,12 @@ $(function() {
     $('#submit').click(register);
 
     function register() {
-        var username = $('input[id="userName"]').val();
+        var username = validateData($('input[id="userName"]').val());
         var password = $('input[id="password"]').val();
         var secondPass = $('input[id="repeatPassword"]').val();
-        var email = $('input[id="email"]').val();
+        var email = validateData($('input[id="email"]').val());
 
-        if(password === secondPass){
+        if(password === secondPass && username && email){
             $.ajax({
                 method: "POST",
                 headers: {
@@ -30,7 +30,7 @@ $(function() {
                 error: errorFunction
             });
         }else{
-            alert('passwords doesnt match!');
+            alert('Invalid username, password or email. Please try again.');
         }
     }
 });
