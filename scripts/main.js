@@ -85,7 +85,12 @@ var app = app || {};
             $userPanel
                 .append($('<button id="logout" class="btn">Logout</button>')
                     .on('click', logOut));
+            persister.users.addAlbumButton();
         } else {
+            var $albumButton = $('button[id="addAlbum"]');
+            if($albumButton) {
+                $albumButton.remove();
+            }
             $userPanel
                 .append($('<button id="loginButton" class="btn">Login</button>').on('click', showLoginForm))
                 .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));

@@ -27,8 +27,8 @@ app.dataPersister = (function () {
             localStorage.setItem('sessionToken', sessionToken);
         }
 
-        function getSessionToken(sessionToken) {
-            localStorage.getItem('sessionToken');
+        function getSessionToken() {
+            return localStorage.getItem('sessionToken');
         }
 
         function setUserName(userName) {
@@ -36,7 +36,7 @@ app.dataPersister = (function () {
         }
 
         function getUserName() {
-            localStorage.getItem('userName')
+            return localStorage.getItem('userName')
         }
 
         function setUserObjectId(objectId) {
@@ -44,7 +44,7 @@ app.dataPersister = (function () {
         }
 
         function getUserObjectId() {
-            localStorage.getItem('userObjectId');
+             return localStorage.getItem('userObjectId');
         }
 
         function getHeaders() {
@@ -184,13 +184,8 @@ app.dataPersister = (function () {
                     userDataStorage.setUserObjectId(data.objectId);
                     showNoty('Login successful!', 'success', 'topCenter');
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
-                    $('#userPanel').html('');
-                    $('#userPanel')
-                        .append($('<button id="logout" class="btn">Logout</button>')
-                            .on('click', function() {
-                                localStorage.removeItem('sessionToken');
-                                location.reload();
-                            }));
+                    changeLoginStatus();
+                    newAlbumButton();
             },function(error){
                     showNoty('Login failed!', 'error', 'topCenter');
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
@@ -217,6 +212,78 @@ app.dataPersister = (function () {
                 showNoty('Registration error!', 'error', 'topCenter');
             });
         };
+
+        Users.prototype.addAlbumButton = function() {
+            newAlbumButton();
+        };
+
+        function newAlbumButton() {
+            var $aside = $('#albumsTop');
+            if($aside) {
+                $aside
+                    .append($('<button>')
+                        .attr('id', 'addAlbum')
+                        .text('Add New Album')
+                        .on('click', showAddAlbumForm));
+
+            }
+        }
+
+        function changeLoginStatus() {
+            $('#userPanel').html('');
+            $('#userPanel')
+                .append($('<button id="logout" class="btn">Logout</button>')
+                    .on('click', function() {
+                        localStorage.removeItem('sessionToken');
+                        location.reload();
+                    }));
+        }
+
+        function showAddAlbumForm() {
+            $('#background')
+                .toggleClass('virtualBackgroundEnabled')
+                .html(
+                '<form>' +
+                '<fieldset>' +
+                '<legend>Add album: </legend>' +
+                '<label for="name">Album name: </label>' +
+                '<input id="name" type="text" /><br/> ' +
+                '<button id="add">Add</button><button id="cancel">Cancel</button>' +
+                '</fieldset>' +
+                '</form>');
+
+            $('#add').on('click', createAlbum);
+            $('#cancel').on('click', function() {
+                $('#background').removeClass('virtualBackgroundEnabled').html('');
+            });
+        }
+
+        function createAlbum() {
+            var url = 'https://api.parse.com/1/classes/Albums/';
+            var $albumName = $('#name').val();
+            var userId = localStorage.getItem('userObjectId');
+            if($albumName) {
+                var data =
+                    JSON.stringify({
+                        "Name": $albumName,
+                        "PictureCount": 0,
+                        "user": {
+                            "__type": "Pointer",
+                            "className": "User",
+                            "objectId": userId
+                        },
+                        "ACL": {'*':{'read': true}}
+                    });
+                return ajaxRequester.post(url, _headers, data)
+                    .then(function(data) {
+                        showNoty('Album added successfully!', 'success', 'topCenter');
+                        $('#background').removeClass('virtualBackgroundEnabled').html('');
+                    },
+                    function(error) {
+                        showNoty("Couldn't add this album!", 'error', 'topCenter');
+                    });
+            }
+        }
 
         return Users;
     }());
