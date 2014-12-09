@@ -8,10 +8,15 @@ app.dataPersister = (function () {
         this.images = new Images(rootUrl);
         this.albums = new Albums(rootUrl);
         this.users = new Users(rootUrl);
+        this.comments = new Comments(rootUrl);
         this.validation = new Validation();
     }
 
     var userDataStorage = (function() {
+        var error = function() {
+                showNoty('Something went wrong. Please try again!', 'error', 'topCenter');
+          };
+
         var headers = {
             'X-Parse-Application-Id': 'w8RpxfKV4dvAI9B5mm3hDX0w1D995KKEcycW3sX8',
             'X-Parse-REST-API-Key': 'pJlAQ67ALlzu4yAGXhsJptlbIl5kMUfHdqNNfVFV',
@@ -23,7 +28,7 @@ app.dataPersister = (function () {
         }
 
         function getSessionToken(sessionToken) {
-            return localStorage.getItem('sessionToken');
+            localStorage.getItem('sessionToken');
         }
 
         function setUserName(userName) {
@@ -31,7 +36,7 @@ app.dataPersister = (function () {
         }
 
         function getUserName() {
-            return localStorage.getItem('userName')
+            localStorage.getItem('userName')
         }
 
         function setUserObjectId(objectId) {
@@ -39,7 +44,7 @@ app.dataPersister = (function () {
         }
 
         function getUserObjectId() {
-            return localStorage.getItem('userObjectId');
+            localStorage.getItem('userObjectId');
         }
 
         function getHeaders() {
@@ -57,45 +62,80 @@ app.dataPersister = (function () {
         }
     }());
 
+
     var ClassItems = (function () {
 
         function ClassItems(rootUrl){
             this.serviceUrl = rootUrl;
+            this.headers = userDataStorage.getHeaders();
         }
 
-        ClassItems.prototype.getSingle = function (id, success, error) {
-            return ajaxRequester.get(this.serviceUrl + id, success, error);
+        ClassItems.prototype.getSingle = function (id) {
+            return ajaxRequester.get(this.serviceUrl + id,this.headers);
         };
 
-        ClassItems.prototype.getAll = function (success, error) {
-            return ajaxRequester.get(this.serviceUrl, success, error);
+        ClassItems.prototype.getAll = function () {
+            return ajaxRequester.get(this.serviceUrl,this.headers);
         };
 
-        ClassItems.prototype.add = function (data, success, error) {
-            return ajaxRequester.post(this.serviceUrl, data, success, error);
+        ClassItems.prototype.add = function (data) {
+            return ajaxRequester.post(this.serviceUrl,this.headers, data);
         };
 
-        ClassItems.prototype.delete = function (id, success, error) {
-            return ajaxRequester.delete(this.serviceUrl + id,  success, error);
+        ClassItems.prototype.delete = function (id) {
+            return ajaxRequester.delete(this.serviceUrl + id,this.headers);
         };
 
-        ClassItems.prototype.put = function (id, data, success, error) {
-            return ajaxRequester.put(this.serviceUrl + id, data,  success, error);
+        ClassItems.prototype.put = function (id, data) {
+            return ajaxRequester.put(this.serviceUrl + id,this.headers, data);
         };
 
+        ClassItems.prototype.getByOption = function(data){
+            return ajaxRequester.getOption(this.serviceUrl,this.headers,data);
+        };
         return ClassItems;
+    }());
+
+    var Comments = (function () {
+        function Comments(rootUrl){
+            this.serviceUrl = rootUrl + 'Comments/';
+        }
+        Comments.prototype = new ClassItems();
+
+        Comments.prototype.getByOption = function(data){
+            return ajaxRequester.getOption(this.serviceUrl,this.headers,data);
+        };
+        return Comments;
     }());
 
 
     var Images = (function () {
         function Images(rootUrl) {
             this.serviceUrl = rootUrl + 'Images/';
+            this._currentImageId = null;
+            this._currentImageData = null;
         }
 
         Images.prototype = new ClassItems();
 
-        Images.prototype.getByAlbum = function (data,success,error){
-            return ajaxRequester.getOption(this.serviceUrl,data, success, error);
+        Images.prototype.getCurrentImageId = function(){
+            return this._currentImageId;
+        };
+
+        Images.prototype.getCurrentImageData = function(){
+            return this._currentImageData;
+        };
+
+        Images.prototype.setCurrentImageId = function(val){
+            this._currentImageId = val;
+        };
+
+        Images.prototype.setCurrentImageData = function(val){
+            this._currentImageData = val;
+        };
+
+        Images.prototype.getByOption = function(data){
+            return ajaxRequester.getOption(this.serviceUrl ,this.headers,data);
         };
 
         return Images;
@@ -104,68 +144,68 @@ app.dataPersister = (function () {
     var Albums = (function () {
         function Albums(rootUrl) {
             this.serviceUrl = rootUrl + 'Albums/';
+            this._currentAlbumId = null;
         }
 
         Albums.prototype = new ClassItems();
+
+        Albums.prototype.getCurrentAlbumId = function(){
+            return this._currentAlbumId;
+        };
+
+        Albums.prototype.setCurrentAlbumId = function(value){
+            this._currentAlbumId = value;
+        };
 
         return Albums;
     }());
 
 
     var Users = (function(){
-        var error = function() {
-            showNoty('Something went wrong. Please try again!', 'error', 'topCenter');
-        };
-        var _headers = {
-            'X-Parse-Application-Id': 'w8RpxfKV4dvAI9B5mm3hDX0w1D995KKEcycW3sX8',
-            'X-Parse-REST-API-Key': 'pJlAQ67ALlzu4yAGXhsJptlbIl5kMUfHdqNNfVFV'
-        };
-
         function Users(rootUrl){
-            this.serviceUrl = rootUrl ;
+            this.serviceUrl = 'https://api.parse.com/1/users';
+            this.headers = userDataStorage.getHeaders();
         }
 
         Users.prototype = new ClassItems();
 
         Users.prototype.login = function(username,password){
-            var success = function(data) {
-                //var data = data.results;
-                //localStorage.setItem('sessionToken', data.result);
-                showNoty('Login successful!', 'success', 'topCenter');
-            };
             var url = "https://api.parse.com/1/login";//this.serviceUrl + 'login?username=' + username + '&password=' + password;
-            var username = username;
-            var password = password;
-            var data = '{"username":"' + username + '","password":"' + password + '"}';
-            return ajaxRequester.get(url, _headers, data, success, error);
+
+            var data = {"username": username  ,"password":  password };
+            return ajaxRequester.getOption(url, this.headers, data)
+                .then(function(data){
+                    userDataStorage.setSessionToken(data.sessionToken);
+                    userDataStorage.setUserName(data.username);
+                    userDataStorage.setUserObjectId(data.objectId);
+                    showNoty('Login successful!', 'success', 'topCenter');
+                    $('#background').removeClass('virtualBackgroundEnabled').html('');
+            },function(error){
+                    showNoty('Login failed!', 'error', 'topCenter');
+                    $('#background').removeClass('virtualBackgroundEnabled').html('');
+                });
         };
 
         Users.prototype.register = function(username, password, email) {
-            var success = function() {
-                showNoty('Registration successful! Please logon in now.', 'success', 'topCenter');
-                $('#background').removeClass('virtualBackgroundEnabled').html('');
-            };
-            var url = "https://api.parse.com/1/users";
+
             var data =
-            {
+            JSON.stringify({
                 "username": username,
                 "password": password,
                 "email": email,
                 "ACL": {'*':{'read': true}}
-            };
-            return ajaxRequester.post(url, _headers, data, success, error);
-        };
-
-        function showNoty(text,type,layout){
-            var n = noty({
-                text        : text,
-                type        : type,
-                dismissQueue: true,
-                layout      : layout,
-                theme       : 'defaultTheme',
-                timeout: 3000
             });
-        }
+            return ajaxRequester.post(this.serviceUrl, this.headers, data)
+                .then(function(data){
+                    userDataStorage.setSessionToken(data.sessionToken);
+                    userDataStorage.setUserName(username);
+                    userDataStorage.setUserObjectId(data.objectId);
+                showNoty('Registration successful! Please log in now.', 'success', 'topCenter');
+                $('#background').removeClass('virtualBackgroundEnabled').html('');
+            },function (error){
+                showNoty('Registration error!', 'error', 'topCenter');
+            });
+        };
 
         return Users;
     }());
@@ -185,6 +225,18 @@ app.dataPersister = (function () {
             validateData:validateData
         }
     });
+
+
+    function showNoty(text,type,layout){
+        var n = noty({
+            text        : text,
+            type        : type,
+            dismissQueue: true,
+            layout      : layout,
+            theme       : 'defaultTheme',
+            timeout: 3000
+        });
+    }
 
     return {
         get: function (rootUrl) {

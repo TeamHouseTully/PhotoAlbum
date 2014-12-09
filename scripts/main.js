@@ -2,10 +2,9 @@ var app = app || {};
 
 (function(){
     var serviceRootUrl = 'https://api.parse.com/1/classes/';
-    //var views = app.views;
     var persister = app.dataPersister.get(serviceRootUrl);
     var controller = app.controller.get(persister);
-    controller.loadAlbums();
+    controller.load();
 
     function getRegistrationData() {
         var username = persister.validation.validateData($('input[id="userName"]').val());
@@ -33,14 +32,14 @@ var app = app || {};
             .toggleClass('virtualBackgroundEnabled')
             .html(
             '<form>' +
-                '<fieldset>' +
-                    '<legend>Login:</legend>' +
-                    '<label for="userName">username: </label>' +
-                    '<input id="userName" type="text" /><br/> ' +
-                    '<label for="password">password: </label>' +
-                    '<input id="password" type="password"/><br/> ' +
-                    '<button id="login">Log in</button>' +
-                '</fieldset>' +
+            '<fieldset>' +
+            '<legend>Login:</legend>' +
+            '<label for="userName">username: </label>' +
+            '<input id="userName" type="text" /><br/> ' +
+            '<label for="password">password: </label>' +
+            '<input id="password" type="password"/><br/> ' +
+            '<button id="login">Log in</button>' +
+            '</fieldset>' +
             '</form>');
 
         $('#login').on('click', getLoginData);
@@ -51,18 +50,18 @@ var app = app || {};
             .toggleClass('virtualBackgroundEnabled')
             .html(
             '<form>' +
-                '<fieldset>' +
-                    '<legend>Register:</legend>' +
-                    '<label for="userName">username: </label>' +
-                    '<input id="userName" type="text" />' +
-                    '<label for="password">password: </label>' +
-                    '<input id="password" type="password" />' +
-                    '<label for="repeatPassword">repeat password: </label>' +
-                    '<input id="repeatPassword" type="password" />' +
-                    '<label for="email">e-mail: </label>' +
-                    '<input id="email" type="text" />' +
-                    '<button id="register">Register</button>' +
-                '</fieldset>' +
+            '<fieldset>' +
+            '<legend>Register:</legend>' +
+            '<label for="userName">username: </label>' +
+            '<input id="userName" type="text" />' +
+            '<label for="password">password: </label>' +
+            '<input id="password" type="password" />' +
+            '<label for="repeatPassword">repeat password: </label>' +
+            '<input id="repeatPassword" type="password" />' +
+            '<label for="email">e-mail: </label>' +
+            '<input id="email" type="text" />' +
+            '<button id="register">Register</button>' +
+            '</fieldset>' +
             '</form>'
         );
 
@@ -78,17 +77,6 @@ var app = app || {};
             .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));
     }
 
-    //app.router = Sammy(function(selector) {
-    //    var selector = '#mainHolder"';
-    //
-    //    this.get('#/add', function() {
-    //        controller.loadAddForm();
-    //    });
-    //
-    //    this.get('#/books', function() {
-    //        controller.loadBooksView();
-    //    })
-    //
-    //});
-    //app.router.run('#/add');
+
+
 }());

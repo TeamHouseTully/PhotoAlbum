@@ -5,6 +5,7 @@
     <title>Photo Album</title>
    <link rel="stylesheet" href="styles/style.css" />
     <script src="libs/jQuery.js" defer></script>
+    <script src="libs/q.js" defer></script>
     <script src="libs/mustache.js" defer></script>
     <script src="libs/carousel.js" defer></script>
     <script src="libs/sammy-latest.min.js" defer></script>
@@ -27,24 +28,42 @@
 
 <header>
     <div id="userPanel">
+
     </div>
     <div id="headerTitle">
-        <h1>PHOTO ALBUM</h1>
+        <div >SoftUni Album</div>
     </div>
 </header>
 <aside>
     <div id="albumsTop">
-        <span id="albumsTitle">Albums</span>
+        <div id="albumsTitle">Albums</div>
         <div id="searchAlbumHolder">
-            <input type="text" id="searchAlbum"/>
+            <!--<input type="text" id="searchAlbum"/>-->
         </div>
     </div>
     <div id="albumsHolder"></div>
 </aside>
 <main>
     <div id="background" class="virtualBackgroundDisabled"></div>
+    <div id="bigPictureHolder">
+        <div id="pictureItself">
+
+        </div>
+        <div id="pictureComments">
+            <div id="imageData">
+
+            </div>
+            <div id="comments">
+
+            </div>
+        </div>
+    </div>
 </main>
-<footer></footer>
+<footer>
+    <div id="currentImagesSlider">
+
+    </div>
+</footer>
 
 
 

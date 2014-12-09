@@ -1,14 +1,20 @@
 var ajaxRequester = (function () {
-    var makeRequest = function makeRequest(method,headers, url, data, success, error) {
-        return $.ajax({
+    var makeRequest = function makeRequest(method, headers, url, data) {
+        var def = Q.defer();
+        $.ajax({
             headers: headers,
             type: method,
             url: url,
             contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: success,
-            error: error
-        })
+            data:  data,
+            success: function(data){
+                def.resolve(data);
+            },
+            error: function(error){
+                def.reject(error);
+            }
+        });
+        return def.promise;
     };
 
     function makeHeaders(headers) {
@@ -17,24 +23,24 @@ var ajaxRequester = (function () {
         return personalHeader;
     }
 
-    function makeGetRequest(url, headers, data, success, error) {
-        return makeRequest('GET',makeHeaders(headers), url, data, success, error);
+    function makeGetRequest(url, headers) {
+        return makeRequest('GET',makeHeaders(headers), url, null);
     }
 
-    function makeGetOptionRequest(url, headers, data, success, error){
-        return makeRequest('GET',makeHeaders(headers), url, JSON.parse(data), success, error);
+    function makeGetOptionRequest(url,headers,data){
+        return makeRequest('GET',makeHeaders(headers), url,data);
     }
 
-    function makePostRequest(url, headers, data, success, error) {
-        return makeRequest('POST',headers, url, data, success, error);
+    function makePostRequest(url,headers, data) {
+        return makeRequest('POST',makeHeaders(headers), url, data);
     }
 
-    function makePutRequest(url, headers,data, success, error) {
-        return makeRequest('PUT',makeHeaders(headers), url, JSON.parse(data), success, error);
+    function makePutRequest(url, headers,data) {
+        return makeRequest('PUT',makeHeaders(headers), url, JSON.parse(data));
     }
 
-    function makeDeleteRequest(url,headers,success, error) {
-        return makeRequest('DELETE',makeHeaders(headers), url, {}, success, error);
+    function makeDeleteRequest(url,headers) {
+        return makeRequest('DELETE',makeHeaders(headers), url, {});
     }
 
     return {
