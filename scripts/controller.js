@@ -39,6 +39,7 @@ app.controller = (function () {
             .then(function(data){
                 $('#comments').children().remove();
                 _this.showComments(data);
+
             },function(error){
                 showNoty("error getting comments",'error','center')
             })
@@ -59,13 +60,13 @@ app.controller = (function () {
 
     };
 
-    Controller.prototype.showSingleImageData = function(image){
-        var imageTemplate = '<div class="album" data-id="{{objectId}}">' +
-            '<button class="deleteButton"></button>' +
-            '<span class="albumName">{{Name}}</span>' +
-            '<span class="albumPicCount">{{PictureCount}}</span>' +
-            '</div>';
-    };
+    //Controller.prototype.showSingleImageData = function(image){
+    //    var imageTemplate = '<div class="album" data-id="{{objectId}}">' +
+    //        '<button class="deleteButton"></button>' +
+    //        '<span class="albumName">{{Name}}</span>' +
+    //        '<span class="albumPicCount">{{PictureCount}}</span>' +
+    //        '</div>';
+    //};
 
     Controller.prototype.showImages = function(images){
         var _this = this;
@@ -73,13 +74,14 @@ app.controller = (function () {
         $.each(images,function(_,image){
             createThumbnailButton.call(_this,image);
         });
+        $('.images').find('img').remove();
         if(images.length>7){
             startSlider();
         }
     };
 
-    Controller.prototype.showComments = function(comments){
 
+    Controller.prototype.showComments = function(comments){
             var commentTemplate = '{{#results}}' +
             '<div class="comment">'+
             '<span class="commentUser">{{User.username}}:</span>'+
@@ -91,6 +93,10 @@ app.controller = (function () {
             var rendered = Mustache.render(commentTemplate, comments);
             $('#comments').html(rendered);
     };
+
+        Controller.prototype.addCommentForm= function(){
+
+        };
 
 
     Controller.prototype.attachEvents = function(){
@@ -126,7 +132,6 @@ app.controller = (function () {
 
        var canvas = $('<canvas>').appendTo(div);
        var ctx = canvas[0].getContext('2d');
-
 
             var SMALL_IMAGE_SIDE = 100;
             var img = new Image();
@@ -173,7 +178,7 @@ app.controller = (function () {
 
                 };
                 img.src = imgURL;
-        div.find('img').remove();
+
     };
 
     var showImageOnShow = function(imgSrc){
@@ -207,7 +212,7 @@ app.controller = (function () {
                         $thisElement.remove();
                     } ,
                     function error(error){
-                        showNoty("error deleting album :" + error,'error','center')
+                        showNoty("error deleting album :",'error','center')
                 })
             });
             $thisElement.removeAttr('data-id')
@@ -220,13 +225,13 @@ app.controller = (function () {
         var slideWidth = 100;
         var slides = $('.images');
         var numberOfSlides = slides.length;
-        var speed = 5000;
+        var speed = 1000;
 
         slides.wrapAll('<div id="slidesHolder"></div>');
 
         slides.css({ 'float' : 'left' });
 
-        $('#slidesHolder').css('width', 700);
+        $('#slidesHolder').css('width', numberOfSlides*slideWidth +100 );
 
         $("#leftArrow").css('display','inline').click(function(){
             changePosition(true);
@@ -236,17 +241,11 @@ app.controller = (function () {
         });
 
         function changePosition(pos) {
-            if(pos==null){
-                if(currentPosition == numberOfSlides - 1) {
-                    currentPosition = 0;
-                } else {
-                    currentPosition++;
-                }
-            }else if(pos==true){
-                currentPosition++;
+            if(pos==true){
+                currentPosition--;
 
             }else if(pos==false){
-                     currentPosition--;
+                     currentPosition++;
             }
             moveSlide();
         }
@@ -259,9 +258,9 @@ app.controller = (function () {
     }
 
     function endSlider(){
-        $("#leftArrow").off();
-        $("#rightArrow").off();
-        $('.arrows').css('display','none');
+        $("#leftArrow").off().css('display','none');;
+        $("#rightArrow").off().css('display','none');;
+
         $('#slidesHolder').remove();
     }
 
