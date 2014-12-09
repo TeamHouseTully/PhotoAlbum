@@ -264,17 +264,18 @@ app.dataPersister = (function () {
             var userId = localStorage.getItem('userObjectId');
             if($albumName) {
                 var data =
-                    JSON.stringify({
+                {
                         "Name": $albumName,
                         "PictureCount": 0,
-                        "user": {
+                        "User": {
                             "__type": "Pointer",
-                            "className": "User",
+                            "className": "_User",
                             "objectId": userId
                         },
                         "ACL": {'*':{'read': true}}
-                    });
-                return ajaxRequester.post(url, _headers, data)
+                    };
+                data['ACL'][userId] = {'write': true};
+                return ajaxRequester.post(url, _headers, JSON.stringify(data))
                     .then(function(data) {
                         showNoty('Album added successfully!', 'success', 'topCenter');
                         $('#background').removeClass('virtualBackgroundEnabled').html('');
