@@ -216,3 +216,46 @@ header div{
 .comment span {
     margin-left: 25px;
 }
+#slideshow #slideshowWindow {
+   width: 800px;
+    height:100px;
+    margin:0;
+    padding:0;
+    position:relative;
+    overflow:hidden;
+    border: 1px solid white;
+    float: right;
+    margin-top: 10px;
+}
+
+#slideshow #slideshowWindow .images {
+    margin:0;
+    padding:0;
+    width:100px;
+    height:100px;
+    float:left;
+    position:relative;
+
+}
+.arrow{
+
+    position: absolute;
+    z-index: 10;
+    top:45%;
+    width: 60px;
+    height: 59px;
+    display: none;
+}
+.arrow:hover{
+    cursor:default;
+}
+#leftArrow{
+    background-image : url('../design/leftArrow.png');
+    top:25px;
+    left:20px;
+}
+#rightArrow{
+    background-image : url('../design/rightArrow.png');
+    top:25px;
+    right:25px;
+}
