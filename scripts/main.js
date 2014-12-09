@@ -27,6 +27,15 @@ var app = app || {};
         }
     }
 
+    function returnToMain() {
+        $('#background').removeClass('virtualBackgroundEnabled').html('');
+    }
+
+    function logOut() {
+        localStorage.removeItem('sessionToken');
+        checkSession();
+    }
+
     function showLoginForm() {
         $('#background')
             .toggleClass('virtualBackgroundEnabled')
@@ -38,11 +47,12 @@ var app = app || {};
             '<input id="userName" type="text" /><br/> ' +
             '<label for="password">password: </label>' +
             '<input id="password" type="password"/><br/> ' +
-            '<button id="login">Log in</button>' +
+            '<button id="login">Log in</button><button id="cancel">Cancel</button>' +
             '</fieldset>' +
             '</form>');
 
         $('#login').on('click', getLoginData);
+        $('#cancel').on('click', returnToMain);
     }
 
     function showRegistrationForm() {
@@ -60,23 +70,27 @@ var app = app || {};
             '<input id="repeatPassword" type="password" />' +
             '<label for="email">e-mail: </label>' +
             '<input id="email" type="text" />' +
-            '<button id="register">Register</button>' +
+            '<button id="register">Register</button><button id="cancel">Cancel</button>' +
             '</fieldset>' +
             '</form>'
         );
 
         $('#register').on('click', getRegistrationData);
+        $('#cancel').on('click', returnToMain);
     }
 
-    if(localStorage.sessionToken) {
-        $('#userPanel').append($('<button id="logout">Logout</button>'));
-    } else {
-
-        $('#userPanel')
-            .append($('<button id="loginButton" class="btn">Login</button>').on('click', showLoginForm))
-            .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));
+    function checkSession() {
+        var $userPanel = $('#userPanel').html('');
+        if(localStorage.sessionToken) {
+            $userPanel
+                .append($('<button id="logout" class="btn">Logout</button>')
+                    .on('click', logOut));
+        } else {
+            $userPanel
+                .append($('<button id="loginButton" class="btn">Login</button>').on('click', showLoginForm))
+                .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));
+        }
     }
 
-
-
+    checkSession();
 }());

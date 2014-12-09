@@ -162,24 +162,35 @@ app.dataPersister = (function () {
 
 
     var Users = (function(){
+        var _headers = {
+            'X-Parse-Application-Id': 'w8RpxfKV4dvAI9B5mm3hDX0w1D995KKEcycW3sX8',
+            'X-Parse-REST-API-Key': 'pJlAQ67ALlzu4yAGXhsJptlbIl5kMUfHdqNNfVFV'
+        };
+
         function Users(rootUrl){
             this.serviceUrl = 'https://api.parse.com/1/users';
-            this.headers = userDataStorage.getHeaders();
+            //this.headers = userDataStorage.getHeaders();
         }
 
         Users.prototype = new ClassItems();
 
         Users.prototype.login = function(username,password){
-            var url = "https://api.parse.com/1/login";//this.serviceUrl + 'login?username=' + username + '&password=' + password;
-
+            var url = "https://api.parse.com/1/login";
             var data = {"username": username  ,"password":  password };
-            return ajaxRequester.getOption(url, this.headers, data)
+            return ajaxRequester.getOption(url, _headers, data)
                 .then(function(data){
                     userDataStorage.setSessionToken(data.sessionToken);
                     userDataStorage.setUserName(data.username);
                     userDataStorage.setUserObjectId(data.objectId);
                     showNoty('Login successful!', 'success', 'topCenter');
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
+                    $('#userPanel').html('');
+                    $('#userPanel')
+                        .append($('<button id="logout" class="btn">Logout</button>')
+                            .on('click', function() {
+                                localStorage.removeItem('sessionToken');
+                                location.reload();
+                            }));
             },function(error){
                     showNoty('Login failed!', 'error', 'topCenter');
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
@@ -195,7 +206,7 @@ app.dataPersister = (function () {
                 "email": email,
                 "ACL": {'*':{'read': true}}
             });
-            return ajaxRequester.post(this.serviceUrl, this.headers, data)
+            return ajaxRequester.post(this.serviceUrl, _headers, data)
                 .then(function(data){
                     userDataStorage.setSessionToken(data.sessionToken);
                     userDataStorage.setUserName(username);
