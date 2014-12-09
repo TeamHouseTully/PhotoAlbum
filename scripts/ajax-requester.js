@@ -42,12 +42,16 @@ var ajaxRequester = (function () {
     function makeDeleteRequest(url,headers) {
         return makeRequest('DELETE',makeHeaders(headers), url, {});
     }
+    function makePostFileRequest(url,headers,file){
+        return makeRequest('POST',makeHeaders(headers), url, file);
+    }
 
     return {
         get: makeGetRequest,
         getOption: makeGetOptionRequest,
         post: makePostRequest,
         put: makePutRequest,
-        delete: makeDeleteRequest
+        delete: makeDeleteRequest,
+        postFile: makePostFileRequest
     }
 }());

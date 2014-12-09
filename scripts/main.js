@@ -3,8 +3,12 @@ var app = app || {};
 (function(){
     var serviceRootUrl = 'https://api.parse.com/1/classes/';
     var persister = app.dataPersister.get(serviceRootUrl);
+
     var controller = app.controller.get(persister);
     controller.load();
+
+    checkSession();
+
 
     function getRegistrationData() {
         var username = persister.validation.validateData($('input[id="userName"]').val());
@@ -26,6 +30,15 @@ var app = app || {};
             persister.users.login(username, password);
         }
     }
+
+    function getNewAlbumData() {
+        var albumName = persister.validation.validateData($('input[id="albumText"]').val());
+
+        if(albumName) {
+            persister.albums.add(albumName);
+        }
+    }
+
 
     function returnToMain() {
         $('#background').removeClass('virtualBackgroundEnabled').html('');
@@ -79,23 +92,81 @@ var app = app || {};
         $('#cancel').on('click', returnToMain);
     }
 
+
+    function showAddPicturesForm(){
+        $('#background')
+            .toggleClass('virtualBackgroundEnabled')
+            .html(
+            '<form>' +
+            '<fieldset>' +
+            '<legend>Upload pictures</legend>' +
+            '<input id="getPics" type="file" multiple accept="image/*"/>' +
+            '<button id="uploadPics">Upload pictures</button><button id="cancel">Cancel</button>' +
+                '<div id="loadingBar"><div id="loadingBarFill"></div></div>' +
+            '</fieldset>' +
+            '</form>'
+        );
+
+
+        $('#uploadPics').on('click', function(){
+            var files = $('#getPics')[0].files;
+            uploadPictures(files)});
+        $('#cancel').on('click', returnToMain);
+    }
+
+    function uploadPictures(pics){
+
+        $.each(pics,function(_,value){
+            var userId = localStorage.userObjectId;
+
+            var file = value;
+            var filename = file.name;
+            var currentAlbumId = persister.albums.getCurrentAlbumId();
+            console.log(currentAlbumId);
+           var data =JSON.stringify(
+                {
+                    "Image": {
+                        "name": filename,
+                        "__type": "File"
+                    },
+                    "User" : {
+                        "__type": "Pointer",
+                        "className": "_User",
+                        "objectId": userId
+                    },
+                    "Album" : {
+                        "__type": "Pointer",
+                        "className": "Albums",
+                        "objectId": currentAlbumId
+                    }
+                });
+
+           //persister.classItems.addFile(file,filename).then(function(){
+           //    persister.images.add(data);
+           //});
+        })
+    }
+
+
+
     function checkSession() {
+        var $imgPanel = $('#slideshow');
         var $userPanel = $('#userPanel').html('');
         if(localStorage.sessionToken) {
             $userPanel
                 .append($('<button id="logout" class="btn">Logout</button>')
                     .on('click', logOut));
+
+            $imgPanel.append(($('<button id="addPictures" class="btn">Upload images</button>')
+                .on('click', showAddPicturesForm)));
+
             persister.users.addAlbumButton();
         } else {
-            var $albumButton = $('button[id="addAlbum"]');
-            if($albumButton) {
-                $albumButton.remove();
-            }
             $userPanel
                 .append($('<button id="loginButton" class="btn">Login</button>').on('click', showLoginForm))
                 .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));
         }
     }
 
-    checkSession();
+
 }());

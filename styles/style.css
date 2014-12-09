@@ -216,6 +216,7 @@ header div{
 .comment span {
     margin-left: 25px;
 }
+
 #slideshow #slideshowWindow {
    width: 800px;
     height:100px;
@@ -238,7 +239,6 @@ header div{
 
 }
 .arrow{
-
     position: absolute;
     z-index: 10;
     top:45%;
@@ -258,4 +258,15 @@ header div{
     background-image : url('../design/rightArrow.png');
     top:25px;
     right:25px;
+}
+
+#loadingBar{
+    width: 90%;
+    height: 20px;
+    border: 1px solid white;
+}
+#loadingBarFill{
+    width: 0%;
+    height: 100%;
+    background-color: #2980b9;
 }

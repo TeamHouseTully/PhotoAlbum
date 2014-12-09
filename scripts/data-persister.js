@@ -10,6 +10,7 @@ app.dataPersister = (function () {
         this.users = new Users(rootUrl);
         this.comments = new Comments(rootUrl);
         this.validation = new Validation();
+
     }
 
     var userDataStorage = (function() {
@@ -27,7 +28,7 @@ app.dataPersister = (function () {
             localStorage.setItem('sessionToken', sessionToken);
         }
 
-        function getSessionToken() {
+        function getSessionToken(sessionToken) {
             return localStorage.getItem('sessionToken');
         }
 
@@ -44,7 +45,7 @@ app.dataPersister = (function () {
         }
 
         function getUserObjectId() {
-             return localStorage.getItem('userObjectId');
+           return localStorage.getItem('userObjectId');
         }
 
         function getHeaders() {
@@ -93,8 +94,14 @@ app.dataPersister = (function () {
         ClassItems.prototype.getByOption = function(data){
             return ajaxRequester.getOption(this.serviceUrl,this.headers,data);
         };
+
+        ClassItems.prototype.addFile = function(file,filename){
+            return ajaxRequester.postFile('https://api.parse.com/1/files/' + filename,this.headers,file);
+        };
         return ClassItems;
     }());
+
+
 
     var Comments = (function () {
         function Comments(rootUrl){
@@ -174,6 +181,7 @@ app.dataPersister = (function () {
 
         Users.prototype = new ClassItems();
 
+
         Users.prototype.login = function(username,password){
             var url = "https://api.parse.com/1/login";
             var data = {"username": username  ,"password":  password };
@@ -186,11 +194,12 @@ app.dataPersister = (function () {
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
                     changeLoginStatus();
                     newAlbumButton();
-            },function(error){
+                },function(error){
                     showNoty('Login failed!', 'error', 'topCenter');
                     $('#background').removeClass('virtualBackgroundEnabled').html('');
                 });
         };
+
 
         Users.prototype.register = function(username, password, email) {
 
@@ -265,15 +274,15 @@ app.dataPersister = (function () {
             if($albumName) {
                 var data =
                 {
-                        "Name": $albumName,
-                        "PictureCount": 0,
-                        "User": {
-                            "__type": "Pointer",
-                            "className": "_User",
-                            "objectId": userId
-                        },
-                        "ACL": {'*':{'read': true}}
-                    };
+                    "Name": $albumName,
+                    "PictureCount": 0,
+                    "User": {
+                        "__type": "Pointer",
+                        "className": "_User",
+                        "objectId": userId
+                    },
+                    "ACL": {'*':{'read': true}}
+                };
                 data['ACL'][userId] = {'write': true};
                 return ajaxRequester.post(url, _headers, JSON.stringify(data))
                     .then(function(data) {
@@ -285,6 +294,7 @@ app.dataPersister = (function () {
                     });
             }
         }
+
 
         return Users;
     }());
