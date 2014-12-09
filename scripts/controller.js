@@ -24,7 +24,8 @@ app.controller = (function () {
             .then(function(data){
                 $('#currentImagesSlider').children().remove();
                 _this.persister.images.setCurrentImageData(data.results);
-                _this.showImages(data.results)
+                _this.showImages(data.results);
+                showNoty('Photos loaded!','notification','topCenter');
             },function(error){
                 showNoty('Error getting images','error','center')
             })
@@ -37,9 +38,9 @@ app.controller = (function () {
         _this.persister.comments.getByOption(queryData)
             .then(function(data){
                 $('#comments').children().remove();
-                _this.showComments(data)
+                _this.showComments(data);
             },function(error){
-                showNoty("error getting images : "  +error,'error','center')
+                showNoty("error getting comments",'error','center')
             })
     };
 
@@ -68,10 +69,13 @@ app.controller = (function () {
 
     Controller.prototype.showImages = function(images){
         var _this = this;
-
+        endSlider();
         $.each(images,function(_,image){
             createThumbnailButton.call(_this,image);
-        })
+        });
+        if(images.length>7){
+            startSlider();
+        }
     };
 
     Controller.prototype.showComments = function(comments){
@@ -106,15 +110,14 @@ app.controller = (function () {
                 $('.images').css('border','1px solid white');
                 $(this).css('border','3px solid red');
                 _this.persister.images.setCurrentImageId(id);
-                $('#pictureItself').css('background-image','');
-                $('#pictureItself').off();
+                $('#pictureItself').css('background-image','').off();
                 showImageOnShow(imageSrc);
                 _this.loadComments(id);
                 //_this.showSingleImageData(image);
             }
         });
         imgDiv.append($('<img>').attr('src','design/loading.gif'));
-        imgDiv.appendTo($('#currentImagesSlider'));
+        imgDiv.appendTo($('#slideshowWindow'));
         createThumbnail(imageSrc,imgDiv);
 
     };
@@ -212,13 +215,65 @@ app.controller = (function () {
     };
 
 
+    function startSlider(){
+        var currentPosition = 0;
+        var slideWidth = 100;
+        var slides = $('.images');
+        var numberOfSlides = slides.length;
+        var speed = 5000;
+
+        slides.wrapAll('<div id="slidesHolder"></div>');
+
+        slides.css({ 'float' : 'left' });
+
+        $('#slidesHolder').css('width', 700);
+
+        $("#leftArrow").css('display','inline').click(function(){
+            changePosition(true);
+        });
+        $("#rightArrow").css('display','inline').click(function(){
+            changePosition(false);
+        });
+
+        function changePosition(pos) {
+            if(pos==null){
+                if(currentPosition == numberOfSlides - 1) {
+                    currentPosition = 0;
+                } else {
+                    currentPosition++;
+                }
+            }else if(pos==true){
+                currentPosition++;
+
+            }else if(pos==false){
+                     currentPosition--;
+            }
+            moveSlide();
+        }
+
+
+        function moveSlide() {
+            $('#slidesHolder')
+                .animate({'marginLeft' : slideWidth*(-currentPosition)});
+        }
+    }
+
+    function endSlider(){
+        $("#leftArrow").off();
+        $("#rightArrow").off();
+        $('.arrows').css('display','none');
+        $('#slidesHolder').remove();
+    }
+
+
     function showNoty(text,type,layout){
         var n = noty({
             text        : text,
             type        : type,
             dismissQueue: true,
             layout      : layout,
-            theme       : 'defaultTheme'
+            theme       : 'defaultTheme',
+            timeout : 300
         });
     }
 
