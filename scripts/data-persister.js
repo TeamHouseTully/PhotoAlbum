@@ -23,7 +23,7 @@ app.dataPersister = (function () {
         }
 
         function getSessionToken(sessionToken) {
-            localStorage.getItem('sessionToken');
+            return localStorage.getItem('sessionToken');
         }
 
         function setUserName(userName) {
@@ -31,7 +31,7 @@ app.dataPersister = (function () {
         }
 
         function getUserName() {
-            localStorage.getItem('userName')
+            return localStorage.getItem('userName')
         }
 
         function setUserObjectId(objectId) {
@@ -39,7 +39,7 @@ app.dataPersister = (function () {
         }
 
         function getUserObjectId() {
-            localStorage.getItem('userObjectId');
+            return localStorage.getItem('userObjectId');
         }
 
         function getHeaders() {
@@ -113,6 +113,14 @@ app.dataPersister = (function () {
 
 
     var Users = (function(){
+        var error = function() {
+            showNoty('Something went wrong. Please try again!', 'error', 'topCenter');
+        };
+        var _headers = {
+            'X-Parse-Application-Id': 'w8RpxfKV4dvAI9B5mm3hDX0w1D995KKEcycW3sX8',
+            'X-Parse-REST-API-Key': 'pJlAQ67ALlzu4yAGXhsJptlbIl5kMUfHdqNNfVFV'
+        };
+
         function Users(rootUrl){
             this.serviceUrl = rootUrl ;
         }
@@ -120,10 +128,43 @@ app.dataPersister = (function () {
         Users.prototype = new ClassItems();
 
         Users.prototype.login = function(username,password){
-            var url = this.serviceUrl + 'login?username=' + username + '&password=' + password;
-            var data = { username:username,password:password};
-            return ajaxRequester.get(url, success, error);
+            var success = function(data) {
+                var data = data.results;
+                localStorage.setItem('sessionToken', data.result);
+                showNoty('Login successful!', 'success', 'topCenter');
+            };
+            var url = "https://api.parse.com/1/login";//this.serviceUrl + 'login?username=' + username + '&password=' + password;
+            var username = username;
+            var password = password;
+            var data = {"username": username, "password":password};
+            return ajaxRequester.get(url, _headers, data, success, error);
         };
+
+        Users.prototype.register = function(username, password, email) {
+            var success = function() {
+                showNoty('Registration successful!', 'success', 'topCenter');
+            };
+            var url = "https://api.parse.com/1/users";
+            var data = JSON.stringify(
+            {
+                "username": username,
+                "password": password,
+                "email": email,
+                "ACL": {'*':{'read': true}}
+            });
+            return ajaxRequester.post(url, _headers, data, success, error);
+        };
+
+        function showNoty(text,type,layout){
+            var n = noty({
+                text        : text,
+                type        : type,
+                dismissQueue: true,
+                layout      : layout,
+                theme       : 'defaultTheme',
+                timeout: 3000
+            });
+        }
 
         return Users;
     }());
@@ -143,7 +184,6 @@ app.dataPersister = (function () {
             validateData:validateData
         }
     });
-
 
     return {
         get: function (rootUrl) {

@@ -5,7 +5,7 @@ var ajaxRequester = (function () {
             type: method,
             url: url,
             contentType: 'application/json',
-            data: JSON.stringify(data),
+            data: data,
             success: success,
             error: error
         })
@@ -17,16 +17,16 @@ var ajaxRequester = (function () {
         return personalHeader;
     }
 
-    function makeGetRequest(url, headers, success, error) {
-        return makeRequest('GET',makeHeaders(headers), url, null, success, error);
-    }
-
-    function makeGetOptionRequest(url,headers,data, success, error){
+    function makeGetRequest(url, headers, data, success, error) {
         return makeRequest('GET',makeHeaders(headers), url, data, success, error);
     }
 
-    function makePostRequest(url,headers, data, success, error) {
-        return makeRequest('POST',makeHeaders(headers), url, data, success, error);
+    function makeGetOptionRequest(url, headers, data, success, error){
+        return makeRequest('GET',makeHeaders(headers), url, data, success, error);
+    }
+
+    function makePostRequest(url, headers, data, success, error) {
+        return makeRequest('POST',headers, url, data, success, error);
     }
 
     function makePutRequest(url, headers,data, success, error) {

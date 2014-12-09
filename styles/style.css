@@ -69,6 +69,58 @@ display: inline-block;
     height: 20px;
     background: url("../design/Cross.png") fixed;
 }
+
+.virtualBackgroundDisabled {
+    display: none;
+}
+
+.virtualBackgroundEnabled {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+form {
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 2em;
+    width: 25%;
+    height: 25%;;
+    padding: 10px;
+    margin: 20px auto;
+    top: 25%;
+    color: #fff;
+}
+
+form input {
+    display: block;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 0 auto;
+    padding: 5px 10px;
+}
+form button {
+    font-size: 1em;
+    padding: 5px;
+    margin-top: 20px;
+}
+
+/*.login {*/
+    /*display: inline-block;*/
+    /*position: relative;*/
+    /*margin: 0 auto;*/
+    /*color: white;*/
+    /*top: 25%;*/
+    /*width: 25%;*/
+    /*height: 25%;*/
+/*}*/
+
 header div{
     display: inline-block;
 }
