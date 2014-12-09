@@ -74,8 +74,8 @@ var app = app || {};
     } else {
 
         $('#userPanel')
-            .append($('<button id="loginButton">Login</button>').on('click', showLoginForm))
-            .append($('<button id="registerButton">Register</button>').on('click', showRegistrationForm));
+            .append($('<button id="loginButton" class="btn">Login</button>').on('click', showLoginForm))
+            .append($('<button id="registerButton" class="btn">Register</button>').on('click', showRegistrationForm));
     }
 
     //app.router = Sammy(function(selector) {

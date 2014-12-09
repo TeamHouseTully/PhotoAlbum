@@ -5,7 +5,7 @@ var ajaxRequester = (function () {
             type: method,
             url: url,
             contentType: 'application/json',
-            data: data,
+            data: JSON.stringify(data),
             success: success,
             error: error
         })
@@ -22,7 +22,7 @@ var ajaxRequester = (function () {
     }
 
     function makeGetOptionRequest(url, headers, data, success, error){
-        return makeRequest('GET',makeHeaders(headers), url, data, success, error);
+        return makeRequest('GET',makeHeaders(headers), url, JSON.parse(data), success, error);
     }
 
     function makePostRequest(url, headers, data, success, error) {

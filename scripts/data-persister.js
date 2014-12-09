@@ -129,29 +129,30 @@ app.dataPersister = (function () {
 
         Users.prototype.login = function(username,password){
             var success = function(data) {
-                var data = data.results;
-                localStorage.setItem('sessionToken', data.result);
+                //var data = data.results;
+                //localStorage.setItem('sessionToken', data.result);
                 showNoty('Login successful!', 'success', 'topCenter');
             };
             var url = "https://api.parse.com/1/login";//this.serviceUrl + 'login?username=' + username + '&password=' + password;
             var username = username;
             var password = password;
-            var data = {"username": username, "password":password};
+            var data = '{"username":"' + username + '","password":"' + password + '"}';
             return ajaxRequester.get(url, _headers, data, success, error);
         };
 
         Users.prototype.register = function(username, password, email) {
             var success = function() {
-                showNoty('Registration successful!', 'success', 'topCenter');
+                showNoty('Registration successful! Please logon in now.', 'success', 'topCenter');
+                $('#background').removeClass('virtualBackgroundEnabled').html('');
             };
             var url = "https://api.parse.com/1/users";
-            var data = JSON.stringify(
+            var data =
             {
                 "username": username,
                 "password": password,
                 "email": email,
                 "ACL": {'*':{'read': true}}
-            });
+            };
             return ajaxRequester.post(url, _headers, data, success, error);
         };
 
